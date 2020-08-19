@@ -130,6 +130,7 @@ class TimeListFragment : CustomFragment() {
 
         setViewAdapter()
 
+        // Sort Items
         view.day_order.setOnClickListener {
             sortViewModel.updateSortItem(SortViewModel.SortItem.DAY_ORDER.name)
         }
@@ -142,6 +143,10 @@ class TimeListFragment : CustomFragment() {
         view.point.setOnClickListener {
             sortViewModel.updateSortItem(SortViewModel.SortItem.POINT.name)
         }
+
+        // Other Views
+        view.text_course_sum.text = model.courseResults.size.toString()
+        view.text_point_sum.text = model.courseResults.sum("point").toString()
 
         return view
     }

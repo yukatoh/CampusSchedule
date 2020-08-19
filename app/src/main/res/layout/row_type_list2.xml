@@ -21,6 +21,7 @@
         android:id="@+id/text_course_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_shorter"
         app:layout_constraintEnd_toStartOf="@+id/text_course"
         app:layout_constraintTop_toTopOf="@+id/text_course"
         tools:text="12" />
@@ -37,6 +38,7 @@
         android:id="@+id/text_point_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_shorter"
         app:layout_constraintEnd_toStartOf="@+id/text_point"
         app:layout_constraintTop_toTopOf="@+id/text_point"
         tools:text="26" />
