@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomCardView">
+        <item name="android:layout_marginStart">@dimen/spacing_mid</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_mid</item>
+        <item name="android:layout_marginTop">@dimen/spacing_shorter</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_shorter</item>
+        <item name="android:background">@color/white</item>
+    </style>
+</resources>

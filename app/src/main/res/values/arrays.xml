@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="colors_picker">
+        <item>@color/red_100</item>
+        <item>@color/orange_100</item>
+        <item>@color/yellow_100</item>
+        <item>@color/green_100</item>
+        <item>@color/blue_100</item>
+        <item>@color/indigo_100</item>
+        <item>@color/purple_100</item>
+        <item>@color/red_300</item>
+        <item>@color/orange_300</item>
+        <item>@color/yellow_300</item>
+        <item>@color/green_300</item>
+        <item>@color/blue_300</item>
+        <item>@color/indigo_300</item>
+        <item>@color/purple_300</item>
+        <item>@color/red_500</item>
+        <item>@color/orange_500</item>
+        <item>@color/yellow_500</item>
+        <item>@color/green_500</item>
+        <item>@color/blue_500</item>
+        <item>@color/indigo_500</item>
+        <item>@color/purple_500</item>
+        <item>@color/red_700</item>
+        <item>@color/orange_700</item>
+        <item>@color/yellow_700</item>
+        <item>@color/green_700</item>
+        <item>@color/blue_700</item>
+        <item>@color/indigo_700</item>
+        <item>@color/purple_700</item>
+        <item>@color/red_900</item>
+        <item>@color/orange_900</item>
+        <item>@color/yellow_900</item>
+        <item>@color/green_900</item>
+        <item>@color/blue_900</item>
+        <item>@color/indigo_900</item>
+        <item>@color/purple_900</item>
+    </array>
+
+    <array name="colors_default_types">
+        <item>@color/red_100</item>
+        <item>@color/orange_100</item>
+        <item>@color/yellow_100</item>
+        <item>@color/green_100</item>
+        <item>@color/blue_100</item>
+    </array>
+
+    <string-array name="labels_default_types">
+        <item>@string/type_label_0</item>
+        <item>@string/type_label_1</item>
+        <item>@string/type_label_2</item>
+        <item>@string/type_label_3</item>
+        <item>@string/type_label_4</item>
+    </string-array>
+
+    <string-array name="labels_weekday">
+        <item>@string/monday</item>
+        <item>@string/tuesday</item>
+        <item>@string/wednesday</item>
+        <item>@string/thursday</item>
+        <item>@string/friday</item>
+        <item>@string/saturday</item>
+    </string-array>
+
+    <string-array name="labels_time_order">
+        <item>1限</item>
+        <item>2限</item>
+        <item>3限</item>
+        <item>4限</item>
+        <item>5限</item>
+        <item>6限</item>
+        <item>7限</item>
+    </string-array>
+
+</resources>

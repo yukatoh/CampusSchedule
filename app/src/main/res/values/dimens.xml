@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- font sizes -->
+    <dimen name="font_large">22sp</dimen>
+    <dimen name="font_medium">18sp</dimen>
+    <dimen name="font_small">14sp</dimen>
+
+    <!-- typical spacing between two views -->
+    <dimen name="spacing_shorter">4dp</dimen>
+    <dimen name="spacing_short">8dp</dimen>
+    <dimen name="spacing_mid">12dp</dimen>
+    <dimen name="spacing_long">16dp</dimen>
+
+    <!-- typical sizes of views -->
+    <dimen name="width_portrait_full">360dp</dimen>
+
+    <dimen name="button_height_normal">48dp</dimen>
+    <dimen name="button_height_short">24dp</dimen>
+
+    <dimen name="border_width_normal">2dp</dimen>
+
+    <dimen name="height_index">36dp</dimen>
+
+    <!-- typical radius-->
+    <dimen name="radius_normal">8dp</dimen>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/spacing_long</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="PopupButton">
+        <item name="android:layout_width">@dimen/button_height_normal</item>
+        <item name="android:layout_height">@dimen/button_height_normal</item>
+        <item name="android:layout_margin">@dimen/spacing_shorter</item>
+        <item name="android:background">@drawable/state_button</item>
+        <item name="android:src">@drawable/ic_more_vert_black_24dp</item>
+    </style>
+
+    <style name="HandleButton">
+        <item name="android:layout_width">@dimen/button_height_normal</item>
+        <item name="android:layout_height">@dimen/button_height_normal</item>
+        <item name="android:layout_margin">@dimen/spacing_shorter</item>
+        <item name="android:background">@drawable/state_button</item>
+        <item name="android:src">@drawable/ic_drag_handle_black_24dp</item>
+    </style>
+
+</resources>
