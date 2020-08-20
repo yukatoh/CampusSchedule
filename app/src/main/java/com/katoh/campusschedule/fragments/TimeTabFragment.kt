@@ -15,6 +15,10 @@ class TimeTabFragment : CustomFragment() {
         getActivity() as AppCompatActivity
     }
 
+    private val isTablet: Boolean by lazy {
+        resources.getBoolean(R.bool.is_tablet)
+    }
+
     private enum class IndexItem(val tabTextId: Int) {
         // View paper items with each fragment instance
         // and string id of the tab text
@@ -55,6 +59,7 @@ class TimeTabFragment : CustomFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (isTablet) return
         setViewPaperItems(view)
     }
 
@@ -77,20 +82,23 @@ class TimeTabFragment : CustomFragment() {
     /**
      * Set a view paper adapter and each tab layout
      */
+    @Suppress("PLUGIN_WARNING")
     private fun setViewPaperItems(view: View) {
-        view.view_pager_time.adapter =
-            object : FragmentStateAdapter(this) {
-                override fun getItemCount(): Int = indexItems.size
+        if (!isTablet) {
+            view.view_pager_time.adapter =
+                object : FragmentStateAdapter(this) {
+                    override fun getItemCount(): Int = indexItems.size
 
-                override fun createFragment(position: Int): Fragment {
-                    return indexItems[position].newInstance()
+                    override fun createFragment(position: Int): Fragment {
+                        return indexItems[position].newInstance()
+                    }
                 }
-            }
-        view.view_pager_time.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            view.view_pager_time.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        TabLayoutMediator(view.time_tab, view.view_pager_time) { tab, position ->
-            tab.text = getString(indexItems[position].tabTextId)
-        }.attach()
+            TabLayoutMediator(view.time_tab, view.view_pager_time) { tab, position ->
+                tab.text = getString(indexItems[position].tabTextId)
+            }.attach()
+        }
     }
 
 }

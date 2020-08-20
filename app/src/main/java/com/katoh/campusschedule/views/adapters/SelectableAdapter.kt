@@ -13,7 +13,7 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> :
      * @return true if the item is selected, false otherwise
      */
     fun isSelected(position: Int): Boolean {
-        return getSelectedItemPosistions().contains(position)
+        return getSelectedItemPositions().contains(position)
     }
 
     /**
@@ -33,7 +33,7 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> :
      * Clear the selection status for all items
      */
     fun clearSelection() {
-        val selection = getSelectedItemPosistions()
+        val selection = getSelectedItemPositions()
         selectedItems.clear()
         for (i in selection) {
             notifyItemChanged(i)
@@ -51,16 +51,12 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> :
      * Indicates the list of selected items
      * @return List of selected items ids
      */
-    fun getSelectedItemPosistions(): List<Int> {
+    fun getSelectedItemPositions(): List<Int> {
         val items: MutableList<Int> = ArrayList(selectedItems.size())
         for (i in 0 until selectedItems.size()) {
             items.add(selectedItems.keyAt(i))
         }
         return items
-    }
-
-    companion object {
-        private val TAG = SelectableAdapter::class.java.simpleName
     }
 
 }

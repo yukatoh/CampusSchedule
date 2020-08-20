@@ -7,6 +7,7 @@ import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.TableLayout
@@ -19,6 +20,8 @@ import androidx.lifecycle.Observer
 import com.katoh.campusschedule.R
 import com.katoh.campusschedule.fragments.dialogs.DeleteDialogFragment
 import com.katoh.campusschedule.models.dao.SettingDao
+import com.katoh.campusschedule.models.entity.CourseRealmObject
+import com.katoh.campusschedule.models.entity.TypeContent
 import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
 import com.katoh.campusschedule.models.prefs.PreferenceNames
 import com.katoh.campusschedule.utils.getTextColorFromBg
@@ -34,12 +37,24 @@ class TimeTableFragment : CustomFragment() {
     private val sp: CustomSharedPreferences by lazy {
         CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
     }
+
     private val savedItem: SettingDao.SavedItem by lazy {
         SettingDao.SavedItem(
-            sp.settingDao().savedTypeContents,
-            sp.settingDao().satVisible,
-            sp.settingDao().timeOrderMax
+            typeContents = sp.settingDao().savedTypeContents,
+            satVisible = sp.settingDao().satVisible,
+            timeOrderMax = sp.settingDao().timeOrderMax
         )
+    }
+
+    /**
+     * Get a type content (label & color) according to the selected course type
+     */
+    private fun getUtilTypeContent(course: CourseRealmObject): TypeContent =
+        savedItem.getUtilTypeContent(course,
+            TypeContent("", requireContext().getColor(R.color.white)))
+
+    private val isTablet: Boolean by lazy {
+        resources.getBoolean(R.bool.is_tablet)
     }
     private val deleteDialogFragment = DeleteDialogFragment()
 
@@ -62,7 +77,11 @@ class TimeTableFragment : CustomFragment() {
         val view = inflater.inflate(
             R.layout.fragment_time_table2, container, false)
 
+        // Saturday visibility
         view.text_sat.visibility =
+            if (savedItem.satVisible) View.VISIBLE
+            else View.GONE
+        view.border_v06.visibility =
             if (savedItem.satVisible) View.VISIBLE
             else View.GONE
 
@@ -82,13 +101,7 @@ class TimeTableFragment : CustomFragment() {
             view.findViewWithTag<TextView>(
                 listOf(course.day, course.order)
             ).run {
-                text = course.courseName
-                val bgColor = try {
-                    savedItem.typeContents[course.type].color
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    context.getColor(R.color.white)
-                }
-                background = getCustomBackground(bgColor)
+                updateContentTextProperty(course)
             }
 
         })
@@ -113,9 +126,7 @@ class TimeTableFragment : CustomFragment() {
                 0, TableRow.LayoutParams.MATCH_PARENT, 0.25F)
             row.addView(iTextView, iParams)
 
-            val daysLength =
-                if (savedItem.satVisible) 6
-                else 5
+            val daysLength = if (savedItem.satVisible) 6 else 5
             for (day in 0 until daysLength) {
                 // Add vertical line
                 val vBorderView = View(context).apply {
@@ -130,14 +141,8 @@ class TimeTableFragment : CustomFragment() {
                 val contentView = TextView(context).apply {
                     // View Property
                     tag = listOf(model.selectedCourse.day, model.selectedCourse.order)
-                    text = model.selectedCourse.courseName
-                    val bgColor = try {
-                        savedItem.typeContents[model.selectedCourse.type].color
-                    } catch (e: ArrayIndexOutOfBoundsException) {
-                        context.getColor(R.color.white)
-                    }
-                    background = getCustomBackground(bgColor)
-                    setTextColor(context.getTextColorFromBg(bgColor))
+
+                    updateContentTextProperty(model.selectedCourse)
 
                     // Event Listener
                     setOnClickListener {
@@ -226,6 +231,33 @@ class TimeTableFragment : CustomFragment() {
             ))
         )
         return drawable
+    }
+
+    private fun TextView.updateContentTextProperty(course: CourseRealmObject) {
+        this.apply {
+            val type = getUtilTypeContent(course)
+            if (isTablet) {
+                text =
+                    if (type.label.isBlank()) ""
+                    else """
+                                ${type.label}
+                                ${course.courseName}
+                                ${course.point}${getString(R.string.point)}
+                                """.trimIndent()
+                setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    resources.getDimension(R.dimen.font_medium))
+
+            }
+            else {
+                text = model.selectedCourse.courseName
+                setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    resources.getDimension(R.dimen.font_small))
+            }
+
+            setTextColor(context.getTextColorFromBg(type.color))
+            background = getCustomBackground(type.color)
+
+        }
     }
 
 }

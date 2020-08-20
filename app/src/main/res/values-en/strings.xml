@@ -60,4 +60,8 @@
     <string name="type_label_4">type05</string>
     <string name="confirm_message_delete">Are you sure you want to remove?</string>
     <string name="warning_message_input">Input Error</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="operate_items">Operate Items</string>
 </resources>

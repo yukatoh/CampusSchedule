@@ -1,5 +1,8 @@
 package com.katoh.campusschedule.models.dao
 
+import android.content.Context
+import com.katoh.campusschedule.R
+import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.models.entity.TypeContent
 import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
 import com.katoh.campusschedule.models.prefs.PreferenceKeys
@@ -9,7 +12,21 @@ class SettingDao(private val sp: CustomSharedPreferences) {
         val typeContents: List<TypeContent>,
         val satVisible: Boolean,
         val timeOrderMax: Int
-    )
+    ) {
+        /**
+         * Get a type content (label & color) according to the selected course type
+         */
+        fun getUtilTypeContent(
+            course: CourseRealmObject, defTypeContent: TypeContent
+        ): TypeContent {
+            return try {
+                typeContents[course.type]
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                // When the selected course type is initialized(-1)
+                defTypeContent
+            }
+        }
+    }
 
     /**
      * Get the type contents, saved values of shared preferences

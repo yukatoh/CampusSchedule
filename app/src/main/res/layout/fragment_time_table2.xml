@@ -103,6 +103,12 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     tools:visibility="visible" />
 
+                <View
+                    android:id="@+id/border_v06"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark" />
+
             </TableRow>
 
             <View

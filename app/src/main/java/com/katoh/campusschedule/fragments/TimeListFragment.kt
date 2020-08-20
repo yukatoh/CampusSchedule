@@ -87,7 +87,7 @@ class TimeListFragment : CustomFragment() {
                             model.initCourse()
                         }
                         DeleteDialogFragment.TAG_CAM -> {
-                            val selectedCourses = timeAdapter.getSelectedItemPosistions()
+                            val selectedCourses = timeAdapter.getSelectedItemPositions()
                                 .map { position ->
                                     sortViewModel.courseResults[position]
                                         ?: throw Exception()
@@ -181,6 +181,11 @@ class TimeListFragment : CustomFragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        actionMode?.finish()
+    }
+
     /**
      * Set recycler view adapter, and show the view
      * to generate recycler view
@@ -256,6 +261,7 @@ class TimeListFragment : CustomFragment() {
         /* TypeRecyclerAdapter */
         typeAdapter = TypeInfoRecyclerAdapter(requireContext(),
             model.courseResults, savedTypeContents)
+
         // Set recycler view adapter
         typeRecyclerView.adapter = typeAdapter
     }

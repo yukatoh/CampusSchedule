@@ -30,9 +30,11 @@ class StartFragment : CustomFragment() {
 
     private var actionMode: ActionMode? = null
     private val actionModeCallback = StartActionModeCallback()
+
     private val createDialogFragment = CreateDialogFragment()
     private val deleteDialogFragment = DeleteDialogFragment()
     private val termSettingDialogFragment = TermSettingDialogFragment()
+
     private val model: CustomResultViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +84,7 @@ class StartFragment : CustomFragment() {
                             model.deleteSelectedTerm()
                         }
                         DeleteDialogFragment.TAG_CAM -> {
-                            val selectedIds = adapter.getSelectedItemPosistions()
+                            val selectedIds = adapter.getSelectedItemPositions()
                                 .mapNotNull { position -> model.termResults[position]?.id }
                             selectedIds.forEach { id ->
                                 model.chooseSelectedTerm(id)
@@ -215,6 +217,11 @@ class StartFragment : CustomFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        actionMode?.finish()
     }
 
     /**

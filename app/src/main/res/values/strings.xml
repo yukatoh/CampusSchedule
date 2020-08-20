@@ -17,6 +17,10 @@
     <string name="apply">適用</string>
     <string name="home">ホーム</string>
     <string name="required">必須</string>
+    <string name="ascending">昇順</string>
+    <string name="descending">降順</string>
+    <string name="sort_order">ソート順</string>
+    <string name="operate_items">項目を操作する</string>
 
     <!-- Proper Nouns -->
     <string name="term_name">ターム名</string>
