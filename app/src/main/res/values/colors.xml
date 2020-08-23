@@ -4,27 +4,16 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#29B6F6</color>
-    <color name="colorSelected">#E8F5E9</color>
+    <color name="colorControlHighlight">@color/light_green_200</color>
 
     <!-- grayscale -->
-    <color name="white"     >#FFFFFF</color>
-    <color name="gray_light">#DBDBDB</color>
-    <color name="gray"      >#939393</color>
-    <color name="gray_dark" >#5F5F5F</color>
-    <color name="black"     >#323232</color>
-    <!-- light color -->
-    <color name="red_light">@color/red_100</color>
-    <color name="pink_light">@color/pink_100</color>
-    <color name="purple_light">@color/purple_100</color>
-    <color name="deep_purple_light">@color/deep_purple_100</color>
-    <color name="indigo_light">@color/indigo_100</color>
-    <color name="blue_light">@color/blue_100</color>
-    <color name="light_blue_light">@color/light_blue_100</color>
-    <color name="cyan_light">@color/cyan_100</color>
-    <color name="yellow_light">@color/yellow_100</color>
-    <color name="green_light">#C8E6C9</color>
-    <color name="orange_light">#FFE0B2</color>
-
+    <color name="white"       >#FFFFFF</color>
+    <color name="gray_lighter">@color/grey_100</color>
+    <color name="gray_light"  >@color/grey_300</color>
+    <color name="gray"        >@color/grey_500</color>
+    <color name="gray_dark"   >@color/grey_700</color>
+    <color name="gray_darker" >@color/grey_800</color>
+    <color name="black"       >@color/grey_900</color>
 
     <color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>
@@ -301,5 +290,4 @@
 
     <color name="clean">#00000000</color>
 
-    <color name="colorBorder">@color/colorPrimaryDark</color>
 </resources>
