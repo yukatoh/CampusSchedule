@@ -27,7 +27,7 @@ import com.katoh.campusschedule.models.prefs.PreferenceNames
 import com.katoh.campusschedule.utils.getTextColorFromBg
 import com.katoh.campusschedule.utils.settingDao
 import com.katoh.campusschedule.viewmodels.CustomResultViewModel
-import kotlinx.android.synthetic.main.fragment_time_table2.view.*
+import kotlinx.android.synthetic.main.fragment_time_table.view.*
 
 class TimeTableFragment : CustomFragment() {
     private val model: CustomResultViewModel by activityViewModels()
@@ -46,12 +46,7 @@ class TimeTableFragment : CustomFragment() {
         )
     }
 
-    /**
-     * Get a type content (label & color) according to the selected course type
-     */
-    private fun getUtilTypeContent(course: CourseRealmObject): TypeContent =
-        savedItem.getUtilTypeContent(course,
-            TypeContent("", requireContext().getColor(R.color.white)))
+
 
     private val isTablet: Boolean by lazy {
         resources.getBoolean(R.bool.is_tablet)
@@ -75,7 +70,7 @@ class TimeTableFragment : CustomFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-            R.layout.fragment_time_table2, container, false)
+            R.layout.fragment_time_table, container, false)
 
         // Saturday visibility
         view.text_sat.visibility =
@@ -101,7 +96,7 @@ class TimeTableFragment : CustomFragment() {
             view.findViewWithTag<TextView>(
                 listOf(course.day, course.order)
             ).run {
-                updateContentTextProperty(course)
+                updatePeriodViewProperty(course)
             }
 
         })
@@ -138,11 +133,11 @@ class TimeTableFragment : CustomFragment() {
 
                 // Add text view to show the course context
                 model.chooseSelectedCourse(day, i)
-                val contentView = TextView(context).apply {
+                val periodView = TextView(context).apply {
                     // View Property
                     tag = listOf(model.selectedCourse.day, model.selectedCourse.order)
 
-                    updateContentTextProperty(model.selectedCourse)
+                    updatePeriodViewProperty(model.selectedCourse)
 
                     // Event Listener
                     setOnClickListener {
@@ -187,7 +182,7 @@ class TimeTableFragment : CustomFragment() {
 
                 val contentParams = TableRow.LayoutParams(
                     0, TableRow.LayoutParams.MATCH_PARENT, 1F)
-                row.addView(contentView, contentParams)
+                row.addView(periodView, contentParams)
             }
 
             // Add vertical line
@@ -226,30 +221,43 @@ class TimeTableFragment : CustomFragment() {
                     setColor(backgroundColor)
                 },
                 RippleDrawable(ColorStateList.valueOf(
-                    requireContext().getColor(R.color.green_light)),
+                    requireContext().getColor(R.color.colorControlHighlight)),
                     null, null)
             ))
         )
         return drawable
     }
 
-    private fun TextView.updateContentTextProperty(course: CourseRealmObject) {
+    /**
+     * Get a type content (label & color) according to the selected course type
+     */
+    private fun getUtilTypeContent(course: CourseRealmObject): TypeContent =
+        savedItem.getUtilTypeContent(course,
+            TypeContent("", requireContext().getColor(R.color.white)))
+
+    /**
+     * Update a text view property of the table periods,
+     * text, textSize, textColor, background
+     */
+    private fun TextView.updatePeriodViewProperty(course: CourseRealmObject) {
         this.apply {
             val type = getUtilTypeContent(course)
             if (isTablet) {
                 text =
                     if (type.label.isBlank()) ""
-                    else """
-                                ${type.label}
-                                ${course.courseName}
-                                ${course.point}${getString(R.string.point)}
-                                """.trimIndent()
+                    else
+                        """
+                        ${type.label}
+                        ${course.courseName}
+                        ${course.point}${getString(R.string.point)}
+                        """.trimIndent()
+
                 setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     resources.getDimension(R.dimen.font_medium))
 
             }
             else {
-                text = model.selectedCourse.courseName
+                text = course.courseName
                 setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     resources.getDimension(R.dimen.font_small))
             }
