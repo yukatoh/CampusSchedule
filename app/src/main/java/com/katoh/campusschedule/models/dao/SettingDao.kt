@@ -1,7 +1,5 @@
 package com.katoh.campusschedule.models.dao
 
-import android.content.Context
-import com.katoh.campusschedule.R
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.models.entity.TypeContent
 import com.katoh.campusschedule.models.prefs.CustomSharedPreferences

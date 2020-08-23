@@ -8,6 +8,7 @@
         <item>@color/blue_100</item>
         <item>@color/indigo_100</item>
         <item>@color/purple_100</item>
+
         <item>@color/red_300</item>
         <item>@color/orange_300</item>
         <item>@color/yellow_300</item>
@@ -15,6 +16,7 @@
         <item>@color/blue_300</item>
         <item>@color/indigo_300</item>
         <item>@color/purple_300</item>
+
         <item>@color/red_500</item>
         <item>@color/orange_500</item>
         <item>@color/yellow_500</item>
@@ -22,6 +24,7 @@
         <item>@color/blue_500</item>
         <item>@color/indigo_500</item>
         <item>@color/purple_500</item>
+
         <item>@color/red_700</item>
         <item>@color/orange_700</item>
         <item>@color/yellow_700</item>
@@ -29,6 +32,7 @@
         <item>@color/blue_700</item>
         <item>@color/indigo_700</item>
         <item>@color/purple_700</item>
+
         <item>@color/red_900</item>
         <item>@color/orange_900</item>
         <item>@color/yellow_900</item>
@@ -36,6 +40,15 @@
         <item>@color/blue_900</item>
         <item>@color/indigo_900</item>
         <item>@color/purple_900</item>
+
+        <item>@color/white</item>
+        <item>@color/gray_lighter</item>
+        <item>@color/gray_light</item>
+        <item>@color/gray</item>
+        <item>@color/gray_dark</item>
+        <item>@color/gray_darker</item>
+        <item>@color/black</item>
+
     </array>
 
     <array name="colors_default_types">
