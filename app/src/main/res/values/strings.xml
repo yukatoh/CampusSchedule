@@ -67,10 +67,10 @@
     <string name="message_choose_color">Choose Color</string>
 
     <!-- Examples -->
-    <string name="type_label_0">必修</string>
-    <string name="type_label_1">選択必修</string>
-    <string name="type_label_2">選択</string>
-    <string name="type_label_3">教養</string>
+    <string name="type_label_0">専門必修</string>
+    <string name="type_label_1">専門選択</string>
+    <string name="type_label_2">一般選択</string>
+    <string name="type_label_3">一般教養</string>
     <string name="type_label_4">その他</string>
 
 </resources>
