@@ -12,12 +12,11 @@ import com.katoh.campusschedule.models.entity.TermRealmObject
 import kotlinx.android.synthetic.main.dialog_create_file.view.*
 
 class CreateDialogFragment : DialogFragment() {
+    // View Models
     private val model: RealmResultViewModel by activityViewModels()
-    private lateinit var listener: NoticeDialogListener
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    // Event Listeners
+    private lateinit var listener: NoticeDialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {

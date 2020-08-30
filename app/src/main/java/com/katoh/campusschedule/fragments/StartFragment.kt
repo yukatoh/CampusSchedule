@@ -21,20 +21,25 @@ import com.katoh.campusschedule.views.actionbar.StartActionModeCallback
 import com.katoh.campusschedule.views.adapters.StartSelectableAdapter
 
 class StartFragment : CustomFragment() {
+    // Activity
     private val activity: AppCompatActivity by lazy {
         getActivity() as AppCompatActivity
     }
+
+    // Views
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StartSelectableAdapter
 
     private var actionMode: ActionMode? = null
     private val actionModeCallback = StartActionModeCallback()
 
+    // View Models
+    private val model: RealmResultViewModel by activityViewModels()
+
+    // Dialogs
     private val createDialogFragment = CreateDialogFragment()
     private val deleteDialogFragment = DeleteDialogFragment()
     private val termSettingDialogFragment = TermSettingDialogFragment()
-
-    private val model: RealmResultViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

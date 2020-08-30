@@ -11,10 +11,14 @@ import com.katoh.campusschedule.R
 import kotlinx.android.synthetic.main.fragment_time_tab.view.*
 
 class TimeTabFragment : CustomFragment() {
+    // Activity
     private val activity: AppCompatActivity by lazy {
         getActivity() as AppCompatActivity
     }
 
+    /**
+     * Whether the device is tablet or not
+     */
     private val isTablet: Boolean by lazy {
         resources.getBoolean(R.bool.is_tablet)
     }

@@ -6,6 +6,12 @@ import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
 import com.katoh.campusschedule.models.prefs.PreferenceKeys
 
 class SettingDao(private val sp: CustomSharedPreferences) {
+    /**
+     * Data class of items saved in shared preferences
+     * @param typeContents
+     * @param satVisible whether Saturday's column of time table is visible
+     * @param timeOrderMax the number of periods per day
+     */
     data class SavedItem(
         val typeContents: List<TypeContent>,
         val satVisible: Boolean,
@@ -56,7 +62,7 @@ class SettingDao(private val sp: CustomSharedPreferences) {
         }
 
     /**
-     * A boolean value whether Saturday column of time table is visible
+     * A boolean value whether Saturday's column of time table is visible
      */
     var satVisible: Boolean
         get() = sp.getBoolean(PreferenceKeys.SAT_VISIBLE)
@@ -64,6 +70,9 @@ class SettingDao(private val sp: CustomSharedPreferences) {
             sp.putBoolean(PreferenceKeys.SAT_VISIBLE, value)
         }
 
+    /**
+     * A maximum value of the number of periods per day
+     */
     var timeOrderMax: Int
         get() = sp.getInt(PreferenceKeys.TIME_ORDER_MAX)
         set(value) {
