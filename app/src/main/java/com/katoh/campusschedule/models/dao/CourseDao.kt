@@ -3,7 +3,6 @@ package com.katoh.campusschedule.models.dao
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.utils.termDao
 import io.realm.Realm
-import io.realm.RealmResults
 
 class CourseDao(val realm: Realm) {
     // About search
@@ -18,12 +17,6 @@ class CourseDao(val realm: Realm) {
             .equalTo("day", day)
             .equalTo("order", order)
             .findFirst() ?: throw Exception("day-order is invalid")
-    }
-
-    fun findCoursesByType(id: Long, type: Int) : RealmResults<CourseRealmObject> {
-        return realm.termDao().findTermById(id).courses.where()
-            .equalTo("type", type)
-            .findAll()
     }
 
     // About Transaction

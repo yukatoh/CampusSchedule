@@ -14,9 +14,6 @@ open class RealmResultViewModel : ViewModel() {
         Realm.getDefaultInstance()
     }
 
-    val allTermData: RealmLiveData<TermRealmObject>
-        get() = realm.termDao().allTermData
-
     val termResults: RealmResults<TermRealmObject>
         get() = realm.termDao().allTerms
 
@@ -27,7 +24,6 @@ open class RealmResultViewModel : ViewModel() {
      */
     val courseResults: RealmResults<CourseRealmObject>
         get() = realm.termDao().getCourseResults(selectedTerm.id)
-
 
     // Live data of a selected term
     private val _selectedTermData: MutableLiveData<TermRealmObject> by lazy {

@@ -2,7 +2,10 @@ package com.katoh.campusschedule.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
@@ -163,31 +166,38 @@ class TimeListFragment : CustomFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         model.selectedCourseData.observe(viewLifecycleOwner, Observer { course ->
             setViewAdapter()
             view.text_course_sum.text = model.courseResults.size.toString()
             view.text_point_sum.text = model.courseResults.sum("point").toString()
             actionMode?.finish()
         })
+
         sortViewModel.focusedItemData.observe(viewLifecycleOwner, Observer { item ->
             view.day_order_sort.visibility = View.INVISIBLE
             view.course_name_sort.visibility = View.INVISIBLE
             view.type_sort.visibility = View.INVISIBLE
             view.point_sort.visibility = View.INVISIBLE
-            when (item.name) {
-                SortViewModel.SortItem.DAY_ORDER.name -> {
+
+            when (item) {
+                SortViewModel.SortItem.DAY_ORDER -> {
                     setSortImageView(view.day_order_sort, item.isAscending)
                 }
-                SortViewModel.SortItem.COURSE_NAME.name -> {
+                SortViewModel.SortItem.COURSE_NAME -> {
                     setSortImageView(view.course_name_sort, item.isAscending)
                 }
-                SortViewModel.SortItem.TYPE.name -> {
+                SortViewModel.SortItem.TYPE -> {
                     setSortImageView(view.type_sort, item.isAscending)
                 }
-                SortViewModel.SortItem.POINT.name -> {
+                SortViewModel.SortItem.POINT -> {
                     setSortImageView(view.point_sort, item.isAscending)
                 }
+                null -> {
+                    setSortImageView(view.day_order_sort, true)
+                }
             }
+
             setViewAdapter()
             actionMode?.finish()
         })
