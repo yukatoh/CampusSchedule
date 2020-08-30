@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import io.realm.RealmResults
 import io.realm.Sort
-import io.realm.internal.SortDescriptor
 
 class SortViewModel : ViewModel() {
 
@@ -76,7 +75,7 @@ class SortViewModel : ViewModel() {
         get() = _courseResultsData.value
             ?: throw  Exception("Cannot get courseResultsData")
 
-    fun updateResults(results: RealmResults<CourseRealmObject>) {
+    fun updateCourseResults(results: RealmResults<CourseRealmObject>) {
         _courseResultsData.value = sorted(results)
     }
 

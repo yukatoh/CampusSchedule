@@ -19,7 +19,7 @@ import com.katoh.campusschedule.models.entity.TypeContent
 import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
 import com.katoh.campusschedule.models.prefs.PreferenceNames
 import com.katoh.campusschedule.utils.settingDao
-import com.katoh.campusschedule.viewmodels.CustomResultViewModel
+import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.viewmodels.SortViewModel
 import com.katoh.campusschedule.views.actionbar.TimeListActionModeCallback
 import com.katoh.campusschedule.views.adapters.TimeSelectableAdapter
@@ -46,7 +46,7 @@ class TimeListFragment : CustomFragment() {
     private var actionMode: ActionMode? = null
     private val actionModeCallback = TimeListActionModeCallback()
 
-    private val model: CustomResultViewModel by activityViewModels()
+    private val model: RealmResultViewModel by activityViewModels()
     private val sortViewModel: SortViewModel by activityViewModels()
 
     private val deleteDialogFragment = DeleteDialogFragment()
@@ -100,7 +100,6 @@ class TimeListFragment : CustomFragment() {
                             actionMode?.finish()
                         }
                     }
-                    // setViewAdapter()
                 }
             })
     }
@@ -157,6 +156,7 @@ class TimeListFragment : CustomFragment() {
             setViewAdapter()
             view.text_course_sum.text = model.courseResults.size.toString()
             view.text_point_sum.text = model.courseResults.sum("point").toString()
+            actionMode?.finish()
         })
         sortViewModel.focusedItemData.observe(viewLifecycleOwner, Observer { item ->
             view.day_order_sort.visibility = View.INVISIBLE
@@ -178,6 +178,7 @@ class TimeListFragment : CustomFragment() {
                 }
             }
             setViewAdapter()
+            actionMode?.finish()
         })
     }
 
@@ -192,7 +193,7 @@ class TimeListFragment : CustomFragment() {
      */
     private fun setViewAdapter() {
         /* TimeSelectableAdapter */
-        sortViewModel.updateResults(model.courseResults)
+        sortViewModel.updateCourseResults(model.courseResults)
         timeAdapter = TimeSelectableAdapter(requireContext(),
             sortViewModel.courseResults, savedTypeContents)
 
