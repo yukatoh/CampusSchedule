@@ -7,7 +7,7 @@
     <data>
         <variable
             name="view_model"
-            type="com.katoh.campusschedule.viewmodels.CustomResultViewModel" />
+            type="com.katoh.campusschedule.viewmodels.RealmResultViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -50,7 +50,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/term_start_end"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/term_start_end"

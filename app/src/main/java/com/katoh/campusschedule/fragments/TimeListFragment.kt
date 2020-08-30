@@ -2,7 +2,10 @@ package com.katoh.campusschedule.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
@@ -19,7 +22,7 @@ import com.katoh.campusschedule.models.entity.TypeContent
 import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
 import com.katoh.campusschedule.models.prefs.PreferenceNames
 import com.katoh.campusschedule.utils.settingDao
-import com.katoh.campusschedule.viewmodels.CustomResultViewModel
+import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.viewmodels.SortViewModel
 import com.katoh.campusschedule.views.actionbar.TimeListActionModeCallback
 import com.katoh.campusschedule.views.adapters.TimeSelectableAdapter
@@ -27,16 +30,12 @@ import com.katoh.campusschedule.views.adapters.TypeInfoRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_time_list.view.*
 
 class TimeListFragment : CustomFragment() {
+    // Activity
     private val activity: AppCompatActivity by lazy {
         getActivity() as AppCompatActivity
     }
-    private val sp: CustomSharedPreferences by lazy {
-        CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
-    }
-    private val savedTypeContents: List<TypeContent> by lazy {
-        sp.settingDao().savedTypeContents
-    }
 
+    // Views
     private lateinit var timeRecyclerView: RecyclerView
     private lateinit var timeAdapter: TimeSelectableAdapter
 
@@ -46,10 +45,25 @@ class TimeListFragment : CustomFragment() {
     private var actionMode: ActionMode? = null
     private val actionModeCallback = TimeListActionModeCallback()
 
-    private val model: CustomResultViewModel by activityViewModels()
+    // View Models
+    private val model: RealmResultViewModel by activityViewModels()
     private val sortViewModel: SortViewModel by activityViewModels()
 
+    // Dialogs
     private val deleteDialogFragment = DeleteDialogFragment()
+
+    // Shared Preferences
+    private val sp: CustomSharedPreferences by lazy {
+        CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
+    }
+
+    /**
+     * Get the type contents, saved values of shared preferences
+     * or default ones of array resources
+     */
+    private val savedTypeContents: List<TypeContent> by lazy {
+        sp.settingDao().savedTypeContents
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +114,6 @@ class TimeListFragment : CustomFragment() {
                             actionMode?.finish()
                         }
                     }
-                    // setViewAdapter()
                 }
             })
     }
@@ -153,31 +166,40 @@ class TimeListFragment : CustomFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         model.selectedCourseData.observe(viewLifecycleOwner, Observer { course ->
             setViewAdapter()
             view.text_course_sum.text = model.courseResults.size.toString()
             view.text_point_sum.text = model.courseResults.sum("point").toString()
+            actionMode?.finish()
         })
+
         sortViewModel.focusedItemData.observe(viewLifecycleOwner, Observer { item ->
             view.day_order_sort.visibility = View.INVISIBLE
             view.course_name_sort.visibility = View.INVISIBLE
             view.type_sort.visibility = View.INVISIBLE
             view.point_sort.visibility = View.INVISIBLE
-            when (item.name) {
-                SortViewModel.SortItem.DAY_ORDER.name -> {
+
+            when (item) {
+                SortViewModel.SortItem.DAY_ORDER -> {
                     setSortImageView(view.day_order_sort, item.isAscending)
                 }
-                SortViewModel.SortItem.COURSE_NAME.name -> {
+                SortViewModel.SortItem.COURSE_NAME -> {
                     setSortImageView(view.course_name_sort, item.isAscending)
                 }
-                SortViewModel.SortItem.TYPE.name -> {
+                SortViewModel.SortItem.TYPE -> {
                     setSortImageView(view.type_sort, item.isAscending)
                 }
-                SortViewModel.SortItem.POINT.name -> {
+                SortViewModel.SortItem.POINT -> {
                     setSortImageView(view.point_sort, item.isAscending)
                 }
+                null -> {
+                    setSortImageView(view.day_order_sort, true)
+                }
             }
+
             setViewAdapter()
+            actionMode?.finish()
         })
     }
 
@@ -192,7 +214,7 @@ class TimeListFragment : CustomFragment() {
      */
     private fun setViewAdapter() {
         /* TimeSelectableAdapter */
-        sortViewModel.updateResults(model.courseResults)
+        sortViewModel.updateCourseResults(model.courseResults)
         timeAdapter = TimeSelectableAdapter(requireContext(),
             sortViewModel.courseResults, savedTypeContents)
 

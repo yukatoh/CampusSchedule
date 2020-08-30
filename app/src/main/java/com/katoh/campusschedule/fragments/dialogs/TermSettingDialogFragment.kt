@@ -7,12 +7,15 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.katoh.campusschedule.R
-import com.katoh.campusschedule.viewmodels.CustomResultViewModel
+import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.models.entity.TermRealmObject
 import kotlinx.android.synthetic.main.dialog_create_file.view.*
 
 class TermSettingDialogFragment : DialogFragment() {
-    private val model: CustomResultViewModel by activityViewModels()
+    // View Models
+    private val model: RealmResultViewModel by activityViewModels()
+
+    // Event Listener
     private lateinit var listener: NoticeDialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

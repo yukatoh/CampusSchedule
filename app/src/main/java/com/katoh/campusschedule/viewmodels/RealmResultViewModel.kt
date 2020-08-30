@@ -9,13 +9,10 @@ import com.katoh.campusschedule.utils.*
 import io.realm.Realm
 import io.realm.RealmResults
 
-open class CustomResultViewModel : ViewModel() {
+open class RealmResultViewModel : ViewModel() {
     val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
-
-    val allTermData: RealmLiveData<TermRealmObject>
-        get() = realm.termDao().allTermData
 
     val termResults: RealmResults<TermRealmObject>
         get() = realm.termDao().allTerms
@@ -28,7 +25,6 @@ open class CustomResultViewModel : ViewModel() {
     val courseResults: RealmResults<CourseRealmObject>
         get() = realm.termDao().getCourseResults(selectedTerm.id)
 
-
     // Live data of a selected term
     private val _selectedTermData: MutableLiveData<TermRealmObject> by lazy {
         MutableLiveData<TermRealmObject>()
@@ -38,7 +34,7 @@ open class CustomResultViewModel : ViewModel() {
     lateinit var selectedTerm: TermRealmObject
 
     /**
-     *
+     * Change the selected term
      */
     fun chooseSelectedTerm(id: Long) {
         selectedTerm = realm.termDao().findTermById(id)
@@ -60,8 +56,13 @@ open class CustomResultViewModel : ViewModel() {
         updateTermData()
     }
 
+    /**
+     * Create realm object of a given term
+     */
     fun createTerm(term: TermRealmObject) {
         realm.termDao().createTransaction(term)
+        chooseSelectedTerm(maxId)       // Created term id is the maximum one
+        updateTermData()
     }
 
     /**
@@ -69,7 +70,15 @@ open class CustomResultViewModel : ViewModel() {
      */
     fun deleteSelectedTerm() {
         realm.termDao().deleteTransaction(selectedTerm.id)
+        chooseSelectedTerm(maxId)       // Insert the maximum term id to the selected one
+        updateTermData()
     }
+
+    /**
+     * The maximum of ID at the time
+     */
+    private val maxId: Long
+        get() = realm.termDao().maxId
 
     // Live data of a selected course
     private val _selectedCourseData: MutableLiveData<CourseRealmObject> by lazy {
@@ -80,7 +89,7 @@ open class CustomResultViewModel : ViewModel() {
     lateinit var selectedCourse: CourseRealmObject
 
     /**
-     *
+     * Change the selected course
      */
     fun chooseSelectedCourse(day: Int, order: Int) {
         selectedCourse = realm.courseDao().findCourseByDayOrder(
@@ -113,7 +122,6 @@ open class CustomResultViewModel : ViewModel() {
             selectedTerm.id, selectedCourse.day, selectedCourse.order)
         updateCourseData()
     }
-
 
     override fun onCleared() {
         super.onCleared()

@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import io.realm.RealmResults
 import io.realm.Sort
-import io.realm.internal.SortDescriptor
 
 class SortViewModel : ViewModel() {
-
+    /**
+     * Index item to sort
+     * @param isAscending whether the item's sort order is ascending
+     */
     enum class SortItem(var isAscending: Boolean) {
         DAY_ORDER(true),
         COURSE_NAME(true),
@@ -17,17 +19,11 @@ class SortViewModel : ViewModel() {
         POINT(true)
     }
 
-    // Pairs of the name and SortItem object
-    private val sortItems = mapOf(
-        SortItem.DAY_ORDER.name to SortItem.DAY_ORDER,
-        SortItem.COURSE_NAME.name to SortItem.COURSE_NAME,
-        SortItem.TYPE.name to SortItem.TYPE,
-        SortItem.POINT.name to SortItem.POINT
-    )
-
     // Live data of a selected SortItem Object
     private val _focusedItemData: MutableLiveData<SortItem> =
-        MutableLiveData<SortItem>().apply { value = sortItems[SortItem.DAY_ORDER.name] }
+        MutableLiveData<SortItem>().apply {
+            value = SortItem.DAY_ORDER
+        }
     val focusedItemData: LiveData<SortItem>
         get() = _focusedItemData
     private val focusedItem: SortItem
@@ -61,23 +57,16 @@ class SortViewModel : ViewModel() {
      * if a focused one does not equals to a current one
      */
     private fun updateFocusedItem(name: String) {
-        _focusedItemData.value = sortItems[name]?.apply {
+        _focusedItemData.value = SortItem.valueOf(name).apply {
             isAscending = true
-        } ?: throw IllegalArgumentException()
-
+        }
     }
 
-    // Live data of a realm results storing course objects
-    private val _courseResultsData: MutableLiveData<RealmResults<CourseRealmObject>> =
-        MutableLiveData()
-    val courseResultsData: LiveData<RealmResults<CourseRealmObject>>
-        get() = _courseResultsData
-    val courseResults: RealmResults<CourseRealmObject>
-        get() = _courseResultsData.value
-            ?: throw  Exception("Cannot get courseResultsData")
+    // A realm results storing course objects
+    lateinit var courseResults: RealmResults<CourseRealmObject>
 
-    fun updateResults(results: RealmResults<CourseRealmObject>) {
-        _courseResultsData.value = sorted(results)
+    fun updateCourseResults(results: RealmResults<CourseRealmObject>) {
+        courseResults = sorted(results)
     }
 
     /**
@@ -93,22 +82,20 @@ class SortViewModel : ViewModel() {
             } else {
                 Sort.DESCENDING
             }
-        return when (focusedItem.name) {
-            SortItem.DAY_ORDER.name -> {
+
+        return when (focusedItem) {
+            SortItem.DAY_ORDER -> {
                 realmResults.sort(arrayOf("day", "order"), arrayOf(order, order))
             }
-            SortItem.COURSE_NAME.name -> {
+            SortItem.COURSE_NAME -> {
                 realmResults.sort("courseName", order)
             }
-            SortItem.TYPE.name -> {
+            SortItem.TYPE -> {
                 realmResults.sort("type", order)
             }
-            SortItem.POINT.name -> {
+            SortItem.POINT -> {
                 realmResults.sort("point", order)
             }
-            else -> throw Exception(
-                "selectedItem.name: %s is invalid".format(focusedItem.name)
-            )
         }
     }
 
