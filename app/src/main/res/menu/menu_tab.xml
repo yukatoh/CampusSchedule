@@ -7,4 +7,5 @@
         android:icon="@drawable/ic_home_white_24dp"
         android:title="@string/home"
         app:showAsAction="ifRoom" />
+    <item android:title="@string/book_list" />
 </menu>
