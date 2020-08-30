@@ -1,76 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App -->
-    <string name="app_name">CampusSchedule</string>
 
-    <!-- UI -->
-    <string name="edit">編集</string>
-    <string name="delete">削除</string>
+    <string name="app_name">CampusSchedule</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="property">Property</string>
+    <string name="add">Add</string>
+    <string name="choose">Choose</string>
+    <string name="apply">Apply</string>
+    <string name="home">Home</string>
+    <string name="required">Required</string>
+    <string name="term_name">Term Name</string>
+    <string name="year">Year</string>
+    <string name="month">Month</string>
+    <string name="term_start">Start</string>
+    <string name="term_end">End</string>
     <string name="ok">OK</string>
-    <string name="create">作成</string>
-    <string name="cancel">キャンセル</string>
-    <string name="save">保存</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="property">プロパティ</string>
-    <string name="add">追加</string>
-    <string name="choose">選択</string>
-    <string name="apply">適用</string>
-    <string name="home">ホーム</string>
-    <string name="required">必須</string>
-    <string name="ascending">昇順</string>
-    <string name="descending">降順</string>
-    <string name="sort_order">ソート順</string>
-    <string name="operate_items">項目を操作する</string>
-
-    <!-- Proper Nouns -->
-    <string name="term_name">ターム名</string>
-    <string name="year">年</string>
-    <string name="month">月</string>
-    <string name="term_start">ターム開始</string>
-    <string name="term_end">ターム終了</string>
-    <string name="unselected_text">未選択</string>
-    <string name="term_setting">ターム設定</string>
-    <string name="general_setting">全般設定</string>
-    <string name="new_create">新規作成</string>
-    <string name="monday">月</string>
-    <string name="tuesday">火</string>
-    <string name="wednesday">水</string>
-    <string name="thursday">木</string>
-    <string name="friday">金</string>
-    <string name="saturday">土</string>
-    <string name="course">授業</string>
-    <string name="course_name">授業名</string>
-    <string name="teacher">指導教員</string>
-    <string name="point">単位</string>
-    <string name="grade">成績</string>
-    <string name="type">区分</string>
+    <string name="unselected_text">Unselected</string>
+    <string name="term_setting">Term Setting</string>
+    <string name="general_setting">General Setting</string>
+    <string name="new_create">New Create</string>
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="course">Courses</string>
+    <string name="course_name">Course Name</string>
+    <string name="teacher">Teacher</string>
+    <string name="point">Points</string>
+    <string name="grade">Grades</string>
+    <string name="type">Type</string>
     <string name="email">E-mail</string>
     <string name="url">URL</string>
-    <string name="textbook">教科書</string>
-    <string name="additional">備考</string>
-    <string name="day_order">コマ</string>
+    <string name="textbook">Textbook</string>
+    <string name="additional">Additional</string>
     <string name="table">Table</string>
+    <string name="day_order">Period</string>
     <string name="list">List</string>
-    <string name="setting_sat">土曜日の表示</string>
-    <string name="setting_order">時限の表示</string>
-    <string name="until">（～まで）</string>
-    <string name="sum">合計</string>
-
-    <!-- Messages -->
-    <string name="warning_message_input">入力に誤りがあります</string>
-    <string name="blank_message_term_name">ターム名を入力してください</string>
-    <string name="blank_message_course_name">授業名を入力してください</string>
-    <string name="blank_message_type">区分を選択してください</string>
-    <string name="blank_message_point">単位数を入力してください</string>
-    <string name="blank_message_grade">成績を入力してください</string>
-    <string name="confirm_message_delete">削除してよろしいですか？</string>
+    <string name="setting_sat">Show Saturday</string>
+    <string name="setting_order">Show Period</string>
+    <string name="until">until</string>
+    <string name="sum">Total</string>
+    <string name="blank_message_term_name">Input a term name</string>
+    <string name="blank_message_course_name">Input a course name</string>
+    <string name="blank_message_type">Select a type</string>
+    <string name="blank_message_point">Input a point</string>
+    <string name="blank_message_grade">input a grade</string>
     <string name="message_choose_color">Choose Color</string>
-
-    <!-- Examples -->
-    <string name="type_label_0">専門必修</string>
-    <string name="type_label_1">専門選択</string>
-    <string name="type_label_2">一般選択</string>
-    <string name="type_label_3">一般教養</string>
-    <string name="type_label_4">その他</string>
+    <string name="type_label_0">type01</string>
+    <string name="type_label_1">type02</string>
+    <string name="type_label_2">type03</string>
+    <string name="type_label_3">type04</string>
+    <string name="type_label_4">type05</string>
+    <string name="confirm_message_delete">Are you sure you want to remove?</string>
+    <string name="warning_message_input">Input Error</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="operate_items">Operate Items</string>
+    <string name="book_list">Book List</string>
 
 </resources>
