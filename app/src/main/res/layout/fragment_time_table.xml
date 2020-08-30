@@ -6,7 +6,7 @@
     <data>
         <variable
             name="view_model"
-            type="com.katoh.campusschedule.viewmodels.CustomResultViewModel" />
+            type="com.katoh.campusschedule.viewmodels.RealmResultViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

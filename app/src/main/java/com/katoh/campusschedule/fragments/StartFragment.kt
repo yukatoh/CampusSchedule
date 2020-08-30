@@ -16,10 +16,9 @@ import com.katoh.campusschedule.R
 import com.katoh.campusschedule.fragments.dialogs.CreateDialogFragment
 import com.katoh.campusschedule.fragments.dialogs.DeleteDialogFragment
 import com.katoh.campusschedule.fragments.dialogs.TermSettingDialogFragment
+import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.views.actionbar.StartActionModeCallback
-import com.katoh.campusschedule.utils.termDao
 import com.katoh.campusschedule.views.adapters.StartSelectableAdapter
-import com.katoh.campusschedule.viewmodels.CustomResultViewModel
 
 class StartFragment : CustomFragment() {
     private val activity: AppCompatActivity by lazy {
@@ -35,7 +34,7 @@ class StartFragment : CustomFragment() {
     private val deleteDialogFragment = DeleteDialogFragment()
     private val termSettingDialogFragment = TermSettingDialogFragment()
 
-    private val model: CustomResultViewModel by activityViewModels()
+    private val model: RealmResultViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +66,6 @@ class StartFragment : CustomFragment() {
         createDialogFragment.setNoticeDialogListener(
             object : CreateDialogFragment.NoticeDialogListener {
                 override fun onPositiveClick(dialog: DialogFragment) {
-                    val createdId = model.realm.termDao().maxId
-                    model.chooseSelectedTerm(createdId)
                     // Replace fragment
                     replaceFragment(R.id.container_main, TimeTabFragment())
                 }
@@ -200,6 +197,7 @@ class StartFragment : CustomFragment() {
         super.onViewCreated(view, savedInstanceState)
         model.selectedTermData.observe(viewLifecycleOwner, Observer {
             setViewAdapter()
+            actionMode?.finish()
         })
     }
 
