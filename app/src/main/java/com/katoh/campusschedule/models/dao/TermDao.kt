@@ -1,9 +1,7 @@
 package com.katoh.campusschedule.models.dao
 
 import com.katoh.campusschedule.models.entity.CourseRealmObject
-import com.katoh.campusschedule.utils.RealmLiveData
 import com.katoh.campusschedule.models.entity.TermRealmObject
-import com.katoh.campusschedule.utils.asLiveData
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -15,8 +13,6 @@ class TermDao(val realm: Realm) {
     val allTerms: RealmResults<TermRealmObject>
         get() = realm.where<TermRealmObject>().findAllAsync()
             .sort("id", Sort.DESCENDING)
-    val allTermData: RealmLiveData<TermRealmObject>
-        get() = allTerms.asLiveData()
 
     // About search
     /**
@@ -67,8 +63,7 @@ class TermDao(val realm: Realm) {
             val courses = mutableListOf<CourseRealmObject>()
             for (d in 0..5) {
                 for (i in 1..7) {
-                    val course = CourseRealmObject()
-                        .apply {
+                    val course = CourseRealmObject().apply {
                         day = d
                         order = i
                     }

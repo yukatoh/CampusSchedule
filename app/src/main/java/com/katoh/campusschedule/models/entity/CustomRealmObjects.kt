@@ -1,6 +1,5 @@
 package com.katoh.campusschedule.models.entity
 
-import com.katoh.campusschedule.R
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
