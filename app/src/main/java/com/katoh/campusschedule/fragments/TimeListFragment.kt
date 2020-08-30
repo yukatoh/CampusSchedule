@@ -27,16 +27,12 @@ import com.katoh.campusschedule.views.adapters.TypeInfoRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_time_list.view.*
 
 class TimeListFragment : CustomFragment() {
+    // Activity
     private val activity: AppCompatActivity by lazy {
         getActivity() as AppCompatActivity
     }
-    private val sp: CustomSharedPreferences by lazy {
-        CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
-    }
-    private val savedTypeContents: List<TypeContent> by lazy {
-        sp.settingDao().savedTypeContents
-    }
 
+    // Views
     private lateinit var timeRecyclerView: RecyclerView
     private lateinit var timeAdapter: TimeSelectableAdapter
 
@@ -46,10 +42,25 @@ class TimeListFragment : CustomFragment() {
     private var actionMode: ActionMode? = null
     private val actionModeCallback = TimeListActionModeCallback()
 
+    // View Models
     private val model: RealmResultViewModel by activityViewModels()
     private val sortViewModel: SortViewModel by activityViewModels()
 
+    // Dialogs
     private val deleteDialogFragment = DeleteDialogFragment()
+
+    // Shared Preferences
+    private val sp: CustomSharedPreferences by lazy {
+        CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
+    }
+
+    /**
+     * Get the type contents, saved values of shared preferences
+     * or default ones of array resources
+     */
+    private val savedTypeContents: List<TypeContent> by lazy {
+        sp.settingDao().savedTypeContents
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

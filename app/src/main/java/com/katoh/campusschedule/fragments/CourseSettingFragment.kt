@@ -19,13 +19,23 @@ import kotlinx.android.synthetic.main.fragnent_course_setting.*
 import kotlinx.android.synthetic.main.fragnent_course_setting.view.*
 
 class CourseSettingFragment : Fragment() {
-    private val model: RealmResultViewModel by activityViewModels()
+    // Activity
     private val activity: AppCompatActivity by lazy {
         getActivity() as AppCompatActivity
     }
+
+    // View Models
+    private val model: RealmResultViewModel by activityViewModels()
+
+    // Shared Preferences
     private val sp: CustomSharedPreferences by lazy {
         CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
     }
+
+    /**
+     * Get the type contents, saved values of shared preferences
+     * or default ones of array resources
+     */
     private val savedTypeContents: List<TypeContent> by lazy {
         sp.settingDao().savedTypeContents
     }
