@@ -67,6 +67,7 @@ class TimeTableFragment : CustomFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Dialogs
         deleteDialogFragment.setNoticeDialogListener(
             object : DeleteDialogFragment.NoticeDialogListener {
                 override fun onPositiveClick(dialog: DialogFragment) {
@@ -95,7 +96,10 @@ class TimeTableFragment : CustomFragment() {
         createTableLayout(layout)
 
         // Action Bar
-        activity.supportActionBar?.title = model.selectedTerm.termLabel
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(false)
+            title = model.selectedTerm.termLabel
+        }
 
         return view
     }

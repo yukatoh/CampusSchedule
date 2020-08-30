@@ -66,5 +66,6 @@
     <string name="sort_order">Sort Order</string>
     <string name="operate_items">Operate Items</string>
     <string name="book_list">Book List</string>
+    <string name="blank">Blank</string>
 
 </resources>

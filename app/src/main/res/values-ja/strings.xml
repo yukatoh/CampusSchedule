@@ -56,6 +56,7 @@
     <string name="setting_order">時限の表示</string>
     <string name="until">（～まで）</string>
     <string name="book_list">教科書リスト</string>
+    <string name="blank">記入なし</string>
 
     <!-- Messages -->
     <string name="warning_message_input">入力に誤りがあります</string>

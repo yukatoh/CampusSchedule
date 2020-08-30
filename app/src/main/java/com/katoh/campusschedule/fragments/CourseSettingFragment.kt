@@ -43,6 +43,15 @@ class CourseSettingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        // Action Bar
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            title = "%s %s".format(
+                translateWeekDay(model.selectedCourse.day),
+                model.selectedCourse.order
+            )
+        }
     }
 
     override fun onCreateView(
@@ -72,15 +81,6 @@ class CourseSettingFragment : Fragment() {
             ), 0)
             setAdapter(adapter)
             setSelection(model.selectedCourse.type + 1)
-        }
-
-        // Action Bar
-        activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            title = "%s %s".format(
-                translateWeekDay(model.selectedCourse.day),
-                model.selectedCourse.order
-            )
         }
 
         return view
