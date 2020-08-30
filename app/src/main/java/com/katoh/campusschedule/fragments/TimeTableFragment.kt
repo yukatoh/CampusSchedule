@@ -26,18 +26,29 @@ import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
 import com.katoh.campusschedule.models.prefs.PreferenceNames
 import com.katoh.campusschedule.utils.getTextColorFromBg
 import com.katoh.campusschedule.utils.settingDao
-import com.katoh.campusschedule.viewmodels.CustomResultViewModel
+import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import kotlinx.android.synthetic.main.fragment_time_table.view.*
 
 class TimeTableFragment : CustomFragment() {
-    private val model: CustomResultViewModel by activityViewModels()
+    // Activity
     private val activity: AppCompatActivity by lazy {
         getActivity() as AppCompatActivity
     }
+
+    // View Models
+    private val model: RealmResultViewModel by activityViewModels()
+
+    // Shared Preferences
     private val sp: CustomSharedPreferences by lazy {
         CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
     }
 
+    // Dialogs
+    private val deleteDialogFragment = DeleteDialogFragment()
+
+    /**
+     * Data class of items saved in shared preferences
+     */
     private val savedItem: SettingDao.SavedItem by lazy {
         SettingDao.SavedItem(
             typeContents = sp.settingDao().savedTypeContents,
@@ -46,12 +57,12 @@ class TimeTableFragment : CustomFragment() {
         )
     }
 
-
-
+    /**
+     * Whether the device is tablet or not
+     */
     private val isTablet: Boolean by lazy {
         resources.getBoolean(R.bool.is_tablet)
     }
-    private val deleteDialogFragment = DeleteDialogFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
