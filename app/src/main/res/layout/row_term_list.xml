@@ -4,12 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="view_model"
-            type="com.katoh.campusschedule.viewmodels.RealmResultViewModel" />
-    </data>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/card_type_list"
         style="@style/CustomCardView"
@@ -24,10 +18,7 @@
                 android:id="@+id/term_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_margin="@dimen/spacing_long"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
@@ -51,16 +42,16 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/term_start_end"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="TODO" />
+                />
 
             <TextView
                 android:id="@+id/term_start_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/term_name"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/term_name"
                 tools:text="2020/04 - 2020/07" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

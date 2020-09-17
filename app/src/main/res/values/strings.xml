@@ -66,5 +66,11 @@
     <string name="sort_order">Sort Order</string>
     <string name="operate_items">Operate Items</string>
     <string name="book_list">Book List</string>
+    <string name="blank">Blank</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="publisher">Publisher</string>
+    <string name="blank_message_booktitle">Input a book title</string>
+    <string name="message_input_book_property">Input book data</string>
 
 </resources>

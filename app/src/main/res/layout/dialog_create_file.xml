@@ -10,70 +10,65 @@
         android:id="@+id/edit_file_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/spacing_mid"
+        android:layout_marginTop="@dimen/spacing_mid"
+        android:layout_marginEnd="@dimen/spacing_mid"
         android:ems="10"
         android:hint="@string/term_name"
+        android:importantForAutofill="no"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/term_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/term_start"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edit_file_name"
         app:layout_constraintTop_toBottomOf="@+id/edit_file_name" />
 
     <EditText
         android:id="@+id/start_year"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/spacing_short"
+        android:layout_marginEnd="@dimen/spacing_short"
         android:ems="4"
         android:hint="@string/year"
+        android:importantForAutofill="no"
         android:inputType="number"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/term_start"
-        android:importantForAutofill="no" />
+        app:layout_constraintStart_toStartOf="@+id/term_start"
+        app:layout_constraintTop_toBottomOf="@+id/term_start" />
 
     <EditText
         android:id="@+id/start_month"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/spacing_short"
         android:ems="4"
         android:hint="@string/month"
+        android:importantForAutofill="no"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/edit_file_name"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/term_start"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="@+id/start_year" />
 
     <TextView
         android:id="@+id/term_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/term_end"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edit_file_name"
         app:layout_constraintTop_toBottomOf="@+id/start_year" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -87,30 +82,29 @@
         android:id="@+id/end_year"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/spacing_short"
+        android:layout_marginEnd="@dimen/spacing_short"
+        android:layout_marginBottom="@dimen/spacing_mid"
         android:ems="4"
         android:hint="@string/year"
+        android:importantForAutofill="no"
         android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/term_end"
-        android:importantForAutofill="no" />
+        app:layout_constraintStart_toStartOf="@+id/term_end"
+        app:layout_constraintTop_toBottomOf="@+id/term_end" />
 
     <EditText
         android:id="@+id/end_month"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/spacing_short"
         android:ems="4"
         android:hint="@string/month"
+        android:importantForAutofill="no"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/edit_file_name"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/term_end"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="@+id/end_year" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

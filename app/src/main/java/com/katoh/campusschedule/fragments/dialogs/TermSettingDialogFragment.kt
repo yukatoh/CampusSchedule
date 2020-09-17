@@ -19,9 +19,9 @@ class TermSettingDialogFragment : DialogFragment() {
     private lateinit var listener: NoticeDialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater
+        return activity?.let { activity ->
+            val builder = AlertDialog.Builder(activity)
+            val inflater = activity.layoutInflater
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
             val view = inflater.inflate(R.layout.dialog_create_file, null).apply {
@@ -58,7 +58,7 @@ class TermSettingDialogFragment : DialogFragment() {
 
                 }
                 .setNegativeButton(R.string.cancel) { dialog, which ->
-                    getDialog()?.cancel()
+                    dialog.cancel()
                 }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

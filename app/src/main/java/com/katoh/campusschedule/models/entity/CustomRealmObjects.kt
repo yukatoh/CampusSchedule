@@ -28,5 +28,8 @@ open class CourseRealmObject : RealmObject() {
     var email: String = ""
     var url: String = ""
     var textbook: String = ""
+    var bookTitle: String = ""
+    var bookAuthor: String = ""
+    var bookPublisher: String = ""
     var additional: String = ""
 }

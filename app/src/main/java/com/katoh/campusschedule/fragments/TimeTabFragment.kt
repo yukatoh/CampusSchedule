@@ -53,10 +53,6 @@ class TimeTabFragment : CustomFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(false)
-        }
-
         return inflater.inflate(
             R.layout.fragment_time_tab, container, false)
     }
@@ -76,6 +72,11 @@ class TimeTabFragment : CustomFragment() {
         return when(item.itemId) {
             R.id.home -> {
                 parentFragmentManager.popBackStack()
+                true
+            }
+            R.id.book_list -> {
+                // Replace fragment
+                replaceFragment(R.id.container_main, BookListFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)

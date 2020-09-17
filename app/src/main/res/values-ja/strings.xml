@@ -56,6 +56,10 @@
     <string name="setting_order">時限の表示</string>
     <string name="until">（～まで）</string>
     <string name="book_list">教科書リスト</string>
+    <string name="blank">記入なし</string>
+    <string name="title">タイトル</string>
+    <string name="author">著者</string>
+    <string name="publisher">出版社</string>
 
     <!-- Messages -->
     <string name="warning_message_input">入力に誤りがあります</string>
@@ -64,6 +68,7 @@
     <string name="blank_message_type">区分を選択してください</string>
     <string name="blank_message_point">単位数を入力してください</string>
     <string name="blank_message_grade">成績を入力してください</string>
+    <string name="blank_message_booktitle">タイトルを入力してください</string>
     <string name="confirm_message_delete">削除してよろしいですか？</string>
     <string name="message_choose_color">Choose Color</string>
 
@@ -73,5 +78,6 @@
     <string name="type_label_2">一般選択</string>
     <string name="type_label_3">一般教養</string>
     <string name="type_label_4">その他</string>
+    <string name="message_input_book_property">教科書データの入力</string>
 
 </resources>
