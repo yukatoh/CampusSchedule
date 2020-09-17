@@ -53,16 +53,16 @@ class TimeListFragment : CustomFragment() {
     private val deleteDialogFragment = DeleteDialogFragment()
 
     // Shared Preferences
-    private val sp: CustomSharedPreferences by lazy {
+    private val defaultPreferences: CustomSharedPreferences by lazy {
         CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
     }
 
     /**
-     * Get the type contents, saved values of shared preferences
+     * Get the type contents, saved in shared preferences
      * or default ones of array resources
      */
     private val savedTypeContents: List<TypeContent> by lazy {
-        sp.settingDao().savedTypeContents
+        defaultPreferences.settingDao().savedTypeContents
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -226,11 +226,13 @@ class TimeListFragment : CustomFragment() {
                         toggleSelection(position)
                     } else {
                         actionMode?.finish()
-                        // Update model
+                        // Update view model
                         val course = sortViewModel.courseResults[position]
                             ?: throw Exception("The course not found")
                         model.chooseSelectedCourse(course.day, course.order)
+
                         // Replace Fragment
+                        model.initBook()
                         replaceParentFragment(
                             R.id.container_main, CourseSettingFragment()
                         )
@@ -252,13 +254,14 @@ class TimeListFragment : CustomFragment() {
         timeAdapter.setOnMenuItemClickListener(
             object : TimeSelectableAdapter.OnMenuItemClickListener {
                 override fun onClick(menuItem: MenuItem, position: Int): Boolean {
-                    // Update model
+                    // Update view model
                     val course = sortViewModel.courseResults[position]
                         ?: throw Exception("The course not found")
                     model.chooseSelectedCourse(course.day, course.order)
                     return when (menuItem.itemId) {
                         R.id.edit -> {
                             // Replace fragment
+                            model.initBook()
                             replaceParentFragment(
                                 R.id.container_main, CourseSettingFragment()
                             )

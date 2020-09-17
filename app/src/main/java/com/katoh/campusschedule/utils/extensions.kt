@@ -2,8 +2,6 @@ package com.katoh.campusschedule.utils
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Color
-import androidx.core.content.ContextCompat
 import com.katoh.campusschedule.R
 
 fun Context.getTextColorFromBg(backgroundColor: Int) : Int {

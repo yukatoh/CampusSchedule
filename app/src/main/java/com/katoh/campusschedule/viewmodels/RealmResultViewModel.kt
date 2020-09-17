@@ -3,6 +3,7 @@ package com.katoh.campusschedule.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.katoh.campusschedule.models.entity.BookContent
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.models.entity.TermRealmObject
 import com.katoh.campusschedule.utils.*
@@ -26,10 +27,10 @@ open class RealmResultViewModel : ViewModel() {
         get() = realm.termDao().getCourseResults(selectedTerm.id)
 
     // Live data of a selected term
-    private val _selectedTermData: MutableLiveData<TermRealmObject> by lazy {
-        MutableLiveData<TermRealmObject>()
+    private val _selectedTermData: MutableLiveData<TermRealmObject?> by lazy {
+        MutableLiveData<TermRealmObject?>()
     }
-    val selectedTermData: LiveData<TermRealmObject>
+    val selectedTermData: LiveData<TermRealmObject?>
         get() = _selectedTermData
     lateinit var selectedTerm: TermRealmObject
 
@@ -44,8 +45,14 @@ open class RealmResultViewModel : ViewModel() {
      * Update live data of the term when changing the selected one
      */
     private fun updateTermData() {
-        selectedTerm = realm.termDao().findTermById(selectedTerm.id)
-        _selectedTermData.value = selectedTerm
+        try {
+            selectedTerm = realm.termDao().findTermById(selectedTerm.id)
+            _selectedTermData.value = selectedTerm
+        } catch (e: IllegalStateException) {
+            // When all term data deleted
+            _selectedTermData.value = null
+        }
+
     }
 
     /**
@@ -70,7 +77,6 @@ open class RealmResultViewModel : ViewModel() {
      */
     fun deleteSelectedTerm() {
         realm.termDao().deleteTransaction(selectedTerm.id)
-        chooseSelectedTerm(maxId)       // Insert the maximum term id to the selected one
         updateTermData()
     }
 
@@ -126,6 +132,32 @@ open class RealmResultViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         realm.close()
+    }
+
+    // Live data of temp book data
+    private val _tempBookData: MutableLiveData<BookContent> by lazy {
+        MutableLiveData<BookContent>()
+    }
+    val tempBookData: LiveData<BookContent>
+        get() = _tempBookData
+    lateinit var tempBook: BookContent
+
+    private fun updateTempBookData() {
+        _tempBookData.value = tempBook
+    }
+
+    fun updateTempBook(book: BookContent) {
+        tempBook = book
+        updateTempBookData()
+    }
+
+    fun initBook() {
+        val book = BookContent(
+            title = selectedCourse.bookTitle,
+            author = selectedCourse.bookAuthor,
+            publisher = selectedCourse.bookPublisher
+        )
+        updateTempBook(book)
     }
 
 }
