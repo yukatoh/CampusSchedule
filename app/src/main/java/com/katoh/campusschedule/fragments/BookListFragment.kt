@@ -1,16 +1,19 @@
 package com.katoh.campusschedule.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.katoh.campusschedule.R
+import com.katoh.campusschedule.viewmodels.BookViewModel
 import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.views.adapters.BookRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.view.*
@@ -27,6 +30,7 @@ class BookListFragment : CustomFragment() {
 
     // View Models
     private val model: RealmResultViewModel by activityViewModels()
+    private val bookViewModel: BookViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +58,13 @@ class BookListFragment : CustomFragment() {
         setViewAdapter()
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bookViewModel.bookList.observe(viewLifecycleOwner, Observer { response ->
+            Log.d("fetch-book", response.toString())
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
