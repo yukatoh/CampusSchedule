@@ -121,6 +121,16 @@ open class RealmResultViewModel : ViewModel() {
     }
 
     /**
+     * Update realm object of book contents of the selected course
+     * with a given BookContent object
+     */
+    fun updateBookSetting(book: BookContent) {
+        realm.courseDao().setBookTransaction(selectedTerm.id,
+            selectedCourse.day, selectedCourse.order, book)
+        updateCourseData()
+    }
+
+    /**
      * Initialize realm object of the selected course
      */
     fun initCourse() {

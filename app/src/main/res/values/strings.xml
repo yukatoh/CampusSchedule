@@ -72,5 +72,6 @@
     <string name="publisher">Publisher</string>
     <string name="blank_message_booktitle">Input a book title</string>
     <string name="message_input_book_property">Input book data</string>
+    <string name="search">Search</string>
 
 </resources>

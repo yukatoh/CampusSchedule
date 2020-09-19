@@ -79,5 +79,6 @@
     <string name="type_label_3">一般教養</string>
     <string name="type_label_4">その他</string>
     <string name="message_input_book_property">教科書データの入力</string>
+    <string name="search">検索</string>
 
 </resources>

@@ -1,7 +1,6 @@
 package com.katoh.campusschedule.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -159,7 +158,6 @@ class CourseSettingFragment : Fragment() {
                             url = edit_url.text.toString()
                             additional = edit_additional.text.toString()
                         }
-                        Log.d("temp-bookTitle", model.tempBook.title)
                         model.updateCourseSetting(course)
                         parentFragmentManager.popBackStack()
                         true

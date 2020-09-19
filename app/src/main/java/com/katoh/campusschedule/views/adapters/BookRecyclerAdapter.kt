@@ -1,9 +1,9 @@
 package com.katoh.campusschedule.views.adapters
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.katoh.campusschedule.R
@@ -16,10 +16,13 @@ class BookRecyclerAdapter(
     private val courses: RealmResults<CourseRealmObject>
 ) : RecyclerView.Adapter<BookRecyclerAdapter.BookViewHolder>() {
 
+    private lateinit var menuItemClickListener: OnMenuItemClickListener
+
     class BookViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val dayOrder: TextView = view.day_order
         val courseName: TextView = view.course_name
         val bookName: TextView = view.book_name
+        val popupButton: ImageButton = view.button_popup
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -45,6 +48,17 @@ class BookRecyclerAdapter(
             } else {
                 course.textbook
             }
+
+        holder.popupButton.setOnClickListener { view ->
+            PopupMenu(view.context, view).apply {
+                inflate(R.menu.menu_book_list_popup)
+                gravity = Gravity.END
+                setOnMenuItemClickListener {
+                    menuItemClickListener.onClick(it, position)
+                }
+                show()
+            }
+        }
     }
 
     /**
@@ -54,4 +68,13 @@ class BookRecyclerAdapter(
         val weekDays = context.resources.getStringArray(R.array.labels_weekday)
         return weekDays[day]
     }
+
+    interface OnMenuItemClickListener {
+        fun onClick(menuItem: MenuItem, position: Int) : Boolean
+    }
+
+    fun setOnMenuItemClickListener(listener: OnMenuItemClickListener) {
+        menuItemClickListener = listener
+    }
+
 }

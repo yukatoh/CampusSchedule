@@ -7,12 +7,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.katoh.campusschedule.R
+import com.katoh.campusschedule.fragments.dialogs.BookSettingDialogFragment
+import com.katoh.campusschedule.models.entity.BookContent
+import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.viewmodels.BookViewModel
 import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.views.adapters.BookRecyclerAdapter
@@ -31,6 +35,9 @@ class BookListFragment : CustomFragment() {
     // View Models
     private val model: RealmResultViewModel by activityViewModels()
     private val bookViewModel: BookViewModel by activityViewModels()
+
+    // Dialogs
+    private val bookSettingDialogFragment = BookSettingDialogFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +64,22 @@ class BookListFragment : CustomFragment() {
         }
         setViewAdapter()
 
+        bookSettingDialogFragment.setNoticeDialogListener(
+            object : BookSettingDialogFragment.NoticeDialogListener {
+                override fun onPositiveClick(dialog: DialogFragment, book: BookContent) {
+                    model.updateBookSetting(book)
+                }
+            })
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model.selectedCourseData.observe(viewLifecycleOwner, Observer {
+            setViewAdapter()
+        })
+
         bookViewModel.bookList.observe(viewLifecycleOwner, Observer { response ->
             Log.d("fetch-book", response.toString())
         })
@@ -84,6 +102,32 @@ class BookListFragment : CustomFragment() {
      */
     private fun setViewAdapter() {
         adapter = BookRecyclerAdapter(requireContext(), model.courseResults)
+
+        adapter.setOnMenuItemClickListener(
+            object : BookRecyclerAdapter.OnMenuItemClickListener{
+                override fun onClick(menuItem: MenuItem, position: Int): Boolean {
+                    // Update view model
+                    val course = model.courseResults[position]
+                        ?: throw Exception("The course not found")
+                    model.chooseSelectedCourse(course.day, course.order)
+
+                    return when (menuItem.itemId) {
+                        R.id.edit -> {
+                            model.initBook()
+                            bookSettingDialogFragment.show(
+                                parentFragmentManager, BookSettingDialogFragment.TAG_DEFAULT)
+                            true
+                        }
+                        R.id.search -> {
+
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            })
+
+        // Set recycler view adapter
         recyclerView.adapter = adapter
     }
 }
