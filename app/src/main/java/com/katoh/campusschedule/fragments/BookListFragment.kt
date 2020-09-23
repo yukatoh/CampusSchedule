@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.katoh.campusschedule.R
 import com.katoh.campusschedule.fragments.dialogs.BookSettingDialogFragment
 import com.katoh.campusschedule.models.entity.BookContent
-import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.viewmodels.BookViewModel
 import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import com.katoh.campusschedule.views.adapters.BookRecyclerAdapter
@@ -80,7 +79,7 @@ class BookListFragment : CustomFragment() {
             setViewAdapter()
         })
 
-        bookViewModel.bookList.observe(viewLifecycleOwner, Observer { response ->
+        bookViewModel.bookLiveData.observe(viewLifecycleOwner, Observer { response ->
             Log.d("fetch-book", response.toString())
         })
     }
@@ -113,13 +112,17 @@ class BookListFragment : CustomFragment() {
 
                     return when (menuItem.itemId) {
                         R.id.edit -> {
+                            // Show dialog
                             model.initBook()
                             bookSettingDialogFragment.show(
                                 parentFragmentManager, BookSettingDialogFragment.TAG_DEFAULT)
                             true
                         }
                         R.id.search -> {
-
+                            // Replace fragment
+                            model.initBook()
+                            bookViewModel.fetchBookData(model.tempBook)
+                            replaceFragment(R.id.container_main, BookSearchFragment())
                             true
                         }
                         else -> false

@@ -17,6 +17,9 @@
     <dimen name="button_height_normal">48dp</dimen>
     <dimen name="button_height_short">24dp</dimen>
 
+    <dimen name="image_width_normal">72dp</dimen>
+    <dimen name="image_height_normal">100dp</dimen>
+
     <dimen name="border_width_normal">2dp</dimen>
 
     <dimen name="height_index">36dp</dimen>

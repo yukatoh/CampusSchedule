@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.katoh.campusschedule.R
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.row_book_list.view.*
+import kotlinx.android.synthetic.main.row_my_book_list.view.*
 
 class BookRecyclerAdapter(
     private val context: Context,
@@ -27,7 +27,7 @@ class BookRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_book_list, parent, false)
+            .inflate(R.layout.row_my_book_list, parent, false)
 
         return BookViewHolder(view)
     }
@@ -49,6 +49,7 @@ class BookRecyclerAdapter(
                 course.textbook
             }
 
+        // Set Event Listener
         holder.popupButton.setOnClickListener { view ->
             PopupMenu(view.context, view).apply {
                 inflate(R.menu.menu_book_list_popup)

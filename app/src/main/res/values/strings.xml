@@ -73,5 +73,11 @@
     <string name="blank_message_booktitle">Input a book title</string>
     <string name="message_input_book_property">Input book data</string>
     <string name="search">Search</string>
+    <string name="num_search_result">Number of search results:</string>
+    <string name="on_website">>> On website</string>
+    <string name="message_unknown_date">Unknown date</string>
+    <string name="message_missing_description">Missing description</string>
+    <string name="search_result">Search result</string>
+    <string name="thumbnail">Thumbnail</string>
 
 </resources>
