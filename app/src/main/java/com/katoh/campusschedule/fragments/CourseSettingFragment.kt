@@ -5,9 +5,12 @@ import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.katoh.campusschedule.R
+import com.katoh.campusschedule.fragments.dialogs.BookSettingDialogFragment
+import com.katoh.campusschedule.models.entity.BookContent
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.models.entity.TypeContent
 import com.katoh.campusschedule.models.prefs.CustomSharedPreferences
@@ -28,21 +31,34 @@ class CourseSettingFragment : Fragment() {
     private val model: RealmResultViewModel by activityViewModels()
 
     // Shared Preferences
-    private val sp: CustomSharedPreferences by lazy {
+    private val defaultPreferences: CustomSharedPreferences by lazy {
         CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
     }
 
+    // Dialogs
+    private val bookSettingDialogFragment = BookSettingDialogFragment()
+
     /**
-     * Get the type contents, saved values of shared preferences
+     * Get the type contents, saved in shared preferences
      * or default ones of array resources
      */
     private val savedTypeContents: List<TypeContent> by lazy {
-        sp.settingDao().savedTypeContents
+        defaultPreferences.settingDao().savedTypeContents
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        // Action Bar
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            title = "%s %s".format(
+                translateWeekDay(model.selectedCourse.day),
+                model.selectedCourse.order
+            )
+        }
+
     }
 
     override fun onCreateView(
@@ -58,7 +74,7 @@ class CourseSettingFragment : Fragment() {
             edit_teacher.setText(model.selectedCourse.teacherName)
             edit_point.setText(model.selectedCourse.point.toString())
             edit_grade.setText(model.selectedCourse.grade.toString())
-            edit_book.setText(model.selectedCourse.textbook)
+            edit_book.text = model.tempBook.joinToString()
             edit_email.setText(model.selectedCourse.email)
             edit_url.setText(model.selectedCourse.url)
             edit_additional.setText(model.selectedCourse.additional)
@@ -74,14 +90,17 @@ class CourseSettingFragment : Fragment() {
             setSelection(model.selectedCourse.type + 1)
         }
 
-        // Action Bar
-        activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            title = "%s %s".format(
-                translateWeekDay(model.selectedCourse.day),
-                model.selectedCourse.order
-            )
+        view.button_edit_book.setOnClickListener {
+            bookSettingDialogFragment.show(
+                parentFragmentManager, BookSettingDialogFragment.TAG_DEFAULT)
         }
+
+        bookSettingDialogFragment.setNoticeDialogListener(
+            object : BookSettingDialogFragment.NoticeDialogListener {
+                override fun onPositiveClick(dialog: DialogFragment, book: BookContent) {
+                    view.edit_book.text = book.joinToString()
+                }
+            })
 
         return view
     }
@@ -131,7 +150,10 @@ class CourseSettingFragment : Fragment() {
                             type = spinner_type.selectedItemPosition - 1
                             point = edit_point.text.toString().toLong()
                             grade = edit_grade.text.toString().toLong()
-                            textbook = edit_book.text.toString()
+                            textbook = model.tempBook.joinToString()
+                            bookTitle = model.tempBook.title
+                            bookAuthor = model.tempBook.author
+                            bookPublisher = model.tempBook.publisher
                             email = edit_email.text.toString()
                             url = edit_url.text.toString()
                             additional = edit_additional.text.toString()

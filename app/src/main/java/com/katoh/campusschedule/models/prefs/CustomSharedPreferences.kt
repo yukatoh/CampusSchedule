@@ -63,6 +63,29 @@ class CustomSharedPreferences(
     }
 
     /**
+     * Put a string value to preferences
+     */
+    fun putString(key: PreferenceKeys, value: String) {
+        if (key.preferenceNames == preferenceNames && key.isStringKey()) {
+            sp.edit().putString(key.name, value).apply()
+        } else {
+            throw IllegalArgumentException()
+        }
+    }
+
+    /**
+     * Get a string value from preferences
+     */
+    fun getString(key: PreferenceKeys): String {
+        if (key.preferenceNames == preferenceNames && key.isIntKey()) {
+            return sp.getString(key.name, key.defaultValue as String)
+                ?: throw IllegalStateException()
+        } else {
+            throw IllegalArgumentException()
+        }
+    }
+
+    /**
      * Put a list (any type) to preferences
      */
     fun putList(key: PreferenceKeys, values: List<*>) {

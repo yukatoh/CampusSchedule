@@ -8,7 +8,10 @@ import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -39,7 +42,7 @@ class TimeTableFragment : CustomFragment() {
     private val model: RealmResultViewModel by activityViewModels()
 
     // Shared Preferences
-    private val sp: CustomSharedPreferences by lazy {
+    private val defaultPreferences: CustomSharedPreferences by lazy {
         CustomSharedPreferences(activity, PreferenceNames.DEFAULT)
     }
 
@@ -51,9 +54,9 @@ class TimeTableFragment : CustomFragment() {
      */
     private val savedItem: SettingDao.SavedItem by lazy {
         SettingDao.SavedItem(
-            typeContents = sp.settingDao().savedTypeContents,
-            satVisible = sp.settingDao().satVisible,
-            timeOrderMax = sp.settingDao().timeOrderMax
+            typeContents = defaultPreferences.settingDao().savedTypeContents,
+            satVisible = defaultPreferences.settingDao().satVisible,
+            timeOrderMax = defaultPreferences.settingDao().timeOrderMax
         )
     }
 
@@ -67,6 +70,7 @@ class TimeTableFragment : CustomFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Dialogs
         deleteDialogFragment.setNoticeDialogListener(
             object : DeleteDialogFragment.NoticeDialogListener {
                 override fun onPositiveClick(dialog: DialogFragment) {
@@ -95,7 +99,10 @@ class TimeTableFragment : CustomFragment() {
         createTableLayout(layout)
 
         // Action Bar
-        activity.supportActionBar?.title = model.selectedTerm.termLabel
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(false)
+            title = model.selectedTerm.termLabel
+        }
 
         return view
     }
@@ -152,15 +159,21 @@ class TimeTableFragment : CustomFragment() {
 
                     // Event Listener
                     setOnClickListener {
+                        // Update view model
                         model.chooseSelectedCourse(day, i)
                         Log.d("courseName", model.selectedCourse.courseName)
+
                         // Replace fragment
+                        model.initBook()
+                        Log.d("model-bookTitle", model.selectedCourse.bookTitle)
                         replaceParentFragment(R.id.container_main, CourseSettingFragment())
                     }
 
                     setOnLongClickListener { v ->
                         v.isSelected = true
+                        // Update view model
                         model.chooseSelectedCourse(day, i)
+
                         PopupMenu(context, v).apply {
                             inflate(R.menu.menu_time_table_popup)
                             gravity = Gravity.END
@@ -168,6 +181,7 @@ class TimeTableFragment : CustomFragment() {
                                 when (it.itemId) {
                                     R.id.edit -> {
                                         // Replace fragment
+                                        model.initBook()
                                         this@TimeTableFragment.replaceParentFragment(
                                             R.id.container_main, CourseSettingFragment()
                                         )

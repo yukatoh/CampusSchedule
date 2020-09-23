@@ -1,6 +1,7 @@
 package com.katoh.campusschedule.models.prefs
 
 import com.katoh.campusschedule.R
+import com.katoh.campusschedule.models.entity.BookContent
 
 enum class PreferenceKeys(val preferenceNames: PreferenceNames,
                           val type: PreferenceType,

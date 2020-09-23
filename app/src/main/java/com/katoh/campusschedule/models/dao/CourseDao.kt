@@ -1,5 +1,6 @@
 package com.katoh.campusschedule.models.dao
 
+import com.katoh.campusschedule.models.entity.BookContent
 import com.katoh.campusschedule.models.entity.CourseRealmObject
 import com.katoh.campusschedule.utils.termDao
 import io.realm.Realm
@@ -38,6 +39,9 @@ class CourseDao(val realm: Realm) {
                 point = course.point
                 grade = course.grade
                 textbook = course.textbook
+                bookTitle = course.bookTitle
+                bookAuthor = course.bookAuthor
+                bookPublisher = course.bookPublisher
                 email = course.email
                 url = course.url
                 additional = course.additional
@@ -45,8 +49,21 @@ class CourseDao(val realm: Realm) {
         }
     }
 
+    fun setBookTransaction(
+        selectedId: Long, day: Int, order: Int, book: BookContent
+    ) {
+        realm.executeTransaction {
+            findCourseByDayOrder(selectedId, day, order).apply {
+                textbook = book.joinToString()
+                bookTitle = book.title
+                bookAuthor = book.author
+                bookPublisher = book.publisher
+            }
+        }
+    }
+
     /**
-     * Initialize the course data
+     * Initialize the course data for all entities
      * @param selectedId The id of the selected term object
      * @param day The day index of the selected course object
      * @param order The order of the selected course object
@@ -60,6 +77,9 @@ class CourseDao(val realm: Realm) {
                 point = 0
                 grade = 0
                 textbook = ""
+                bookTitle = ""
+                bookAuthor = ""
+                bookPublisher = ""
                 email = ""
                 url = ""
                 additional = ""
