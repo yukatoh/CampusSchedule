@@ -1,6 +1,5 @@
 package com.katoh.campusschedule.views.adapters
 
-import android.R.attr
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -27,6 +26,7 @@ class BookSearchRecyclerAdapter(
     private val context: Context,
     private val bookData: BookData
 ) : RecyclerView.Adapter<BookSearchRecyclerAdapter.BookSearchHolder>() {
+    private lateinit var itemClickListener: OnItemClickListener
 
     class BookSearchHolder(view: View) : RecyclerView.ViewHolder(view) {
         var contentText: TextView = view.book_content
@@ -82,10 +82,13 @@ class BookSearchRecyclerAdapter(
 
         // Set Event Listener
         holder.itemView.setOnClickListener {
-
+            itemClickListener.onClick(position)
         }
     }
 
+    /**
+     * Create listener to log loading an image with Glide
+     */
     private fun createLoggerListener(name: String): RequestListener<Drawable> =
         object : RequestListener<Drawable> {
             override fun onLoadFailed(
@@ -116,5 +119,13 @@ class BookSearchRecyclerAdapter(
             }
 
         }
+
+    interface OnItemClickListener {
+        fun onClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
 
 }

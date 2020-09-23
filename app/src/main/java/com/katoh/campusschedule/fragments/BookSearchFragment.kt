@@ -1,5 +1,7 @@
 package com.katoh.campusschedule.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -74,6 +76,19 @@ class BookSearchFragment : CustomFragment() {
     private fun setViewAdapter() {
         adapter = BookSearchRecyclerAdapter(requireContext(),
             bookViewModel.bookList)
+
+        adapter.setOnItemClickListener(
+            object : BookSearchRecyclerAdapter.OnItemClickListener {
+                override fun onClick(position: Int) {
+                    // Intent
+                    val uri = Uri.parse(bookViewModel.bookList.items[position].volumeInfo.infoLink)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    if (intent.resolveActivity(activity.packageManager) != null) {
+                        startActivity(intent)
+                    }
+                }
+            })
+
         // Set recycler view adapter
         recyclerView.adapter = adapter
     }

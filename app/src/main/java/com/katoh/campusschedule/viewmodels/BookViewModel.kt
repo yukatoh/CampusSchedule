@@ -1,7 +1,5 @@
 package com.katoh.campusschedule.viewmodels
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,8 +12,6 @@ import com.katoh.campusschedule.services.BookLookupService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.IOException
-import java.net.URL
 
 class BookViewModel: ViewModel() {
     // Repository
@@ -47,7 +43,6 @@ class BookViewModel: ViewModel() {
                 // Update live data
                 bookRepository.getBookData(params)?.let { bookData ->
                     updateBookData(bookData)
-                    // fetchThumbnail(bookData)
                 }
             }
         }
@@ -82,27 +77,4 @@ class BookViewModel: ViewModel() {
                 append("+inpublisher:${bookContent.publisher}")
         }.toString()
 
-    // List of thumbnail bitmaps
-    lateinit var thumbnails: List<Bitmap>
-
-    private fun fetchThumbnail(bookData: BookData) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    val bmpList = mutableListOf<Bitmap>()
-                    bookData.items.forEach { item ->
-                        val url = URL(item.volumeInfo.imageLinks?.thumbnail
-                            ?.replace("http://", "https://"))
-                        val inputStream = url.openStream()
-                        val bmp = BitmapFactory.decodeStream(inputStream)
-                        bmpList.add(bmp)
-                        inputStream.close()
-                    }
-                    thumbnails = bmpList
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
 }
