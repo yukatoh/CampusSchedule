@@ -45,10 +45,10 @@ class BookSearchRecyclerAdapter(
         return BookSearchHolder(view)
     }
 
-    override fun getItemCount(): Int = bookData.items.size
+    override fun getItemCount(): Int = bookData.items?.size ?: 0
 
     override fun onBindViewHolder(holder: BookSearchHolder, position: Int) {
-        val volumeInfo = bookData.items[position].volumeInfo
+        val volumeInfo = bookData.items?.get(position)?.volumeInfo ?: return
 
         // View property <- BookData
         holder.contentText.text = BookContent(
@@ -64,8 +64,28 @@ class BookSearchRecyclerAdapter(
 
         holder.category.text = volumeInfo.categories?.joinToString(",", "#")
 
-        holder.description.text = volumeInfo.description
-            ?: context.getString(R.string.message_missing_description)
+        holder.description.apply {
+            setBackgroundResource(R.drawable.state_button)
+            val partialString = bookData.items[position].searchInfo?.textSnippet
+            val totalString = volumeInfo.description
+
+            isSelected = false
+            text = partialString?.let {
+                // Short string
+                if (it == totalString) it
+                // Long string
+                else {
+                    val omittedString = "%s%s".format(
+                        it, context.getString(R.string.message_read_more))
+                    setOnClickListener {
+                        text = if (isSelected) omittedString else totalString
+                        isSelected = !isSelected
+                    }
+                    omittedString
+                }
+            } ?: context.getString(R.string.message_missing_description)    // Null
+
+        }
 
         val imageUrlString = volumeInfo.imageLinks?.thumbnail
             ?.replace("http://", "https://")
