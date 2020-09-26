@@ -79,5 +79,6 @@
     <string name="message_missing_description">Missing description</string>
     <string name="search_result">Search result</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="message_read_more">Read more</string>
 
 </resources>
