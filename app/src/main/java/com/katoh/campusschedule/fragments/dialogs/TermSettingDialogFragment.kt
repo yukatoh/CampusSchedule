@@ -19,7 +19,7 @@ class TermSettingDialogFragment : DialogFragment() {
     }
 
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
 
     // Event Listener
     private lateinit var listener: NoticeDialogListener
@@ -33,11 +33,11 @@ class TermSettingDialogFragment : DialogFragment() {
         // Pass null as the parent view because its going in the dialog layout
         val view = inflater.inflate(R.layout.dialog_create_file, null).apply {
             // Set texts from model to EditView
-            edit_file_name.setText(model.selectedTerm.termLabel)
-            start_year.setText(model.selectedTerm.startYear)
-            start_month.setText(model.selectedTerm.startMonth)
-            end_year.setText(model.selectedTerm.endYear)
-            end_month.setText(model.selectedTerm.endMonth)
+            edit_file_name.setText(realmViewModel.selectedTerm.termLabel)
+            start_year.setText(realmViewModel.selectedTerm.startYear)
+            start_month.setText(realmViewModel.selectedTerm.startMonth)
+            end_year.setText(realmViewModel.selectedTerm.endYear)
+            end_month.setText(realmViewModel.selectedTerm.endMonth)
         }
 
         return builder
@@ -54,7 +54,7 @@ class TermSettingDialogFragment : DialogFragment() {
                         endYear = view.end_year.text.toString()
                         endMonth = view.end_month.text.toString()
                     }
-                    model.updateTermSetting(term)
+                    realmViewModel.updateTermSetting(term)
 
                     // Set event listener
                     listener.onPositiveClick(this)
@@ -63,7 +63,6 @@ class TermSettingDialogFragment : DialogFragment() {
                     Toast.makeText(context,
                         R.string.blank_message_term_name, Toast.LENGTH_SHORT).show()
                 }
-
             }
             .setNegativeButton(R.string.cancel) { dialog, which ->
                 dialog.cancel()
@@ -71,9 +70,7 @@ class TermSettingDialogFragment : DialogFragment() {
             .create()
     }
 
-    /* The activity that creates an instance of this dialog fragment must
-     * implement this interface in order to receive event callbacks.
-     * Each method passes the DialogFragment in case the host needs to query it. */
+    // Interface
     interface NoticeDialogListener {
         fun onPositiveClick(dialog: DialogFragment)
     }

@@ -19,7 +19,7 @@ class BookSettingDialogFragment : DialogFragment() {
     }
 
     // View models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
 
     // Event Listener
     private lateinit var listener: NoticeDialogListener
@@ -33,9 +33,9 @@ class BookSettingDialogFragment : DialogFragment() {
         // Pass null as the parent view because its going in the dialog layout
         val view = inflater.inflate(R.layout.dialog_book_setting, null).apply {
             // Set texts from preferences to EditView
-            title.setText(model.tempBook.title)
-            author.setText(model.tempBook.author)
-            publisher.setText(model.tempBook.publisher)
+            title.setText(realmViewModel.tempBook.title)
+            author.setText(realmViewModel.tempBook.author)
+            publisher.setText(realmViewModel.tempBook.publisher)
         }
 
         return builder
@@ -48,7 +48,7 @@ class BookSettingDialogFragment : DialogFragment() {
                         author = view.author.text.toString(),
                         publisher = view.publisher.text.toString()
                     )
-                    model.updateTempBook(book)
+                    realmViewModel.updateTempBook(book)
                     listener.onPositiveClick(this, book)
 
                 } else {

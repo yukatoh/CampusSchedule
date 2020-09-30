@@ -17,11 +17,6 @@ import kotlinx.android.synthetic.main.fragment_general_setting.view.*
 import kotlinx.android.synthetic.main.row_type_list.view.*
 
 class GeneralSettingFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
     // Views
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TypeSettingSelectableAdapter

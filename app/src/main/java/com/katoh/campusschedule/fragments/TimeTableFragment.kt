@@ -16,7 +16,6 @@ import android.widget.PopupMenu
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -33,13 +32,8 @@ import com.katoh.campusschedule.viewmodels.RealmResultViewModel
 import kotlinx.android.synthetic.main.fragment_time_table.view.*
 
 class TimeTableFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
 
     // Shared Preferences
     private val defaultPreferences: CustomSharedPreferences by lazy {
@@ -74,7 +68,7 @@ class TimeTableFragment : CustomFragment() {
         deleteDialogFragment.setNoticeDialogListener(
             object : DeleteDialogFragment.NoticeDialogListener {
                 override fun onPositiveClick(dialog: DialogFragment) {
-                    model.initCourse()
+                    realmViewModel.initCourse()
                 }
             })
     }
@@ -101,7 +95,7 @@ class TimeTableFragment : CustomFragment() {
         // Action Bar
         activity.supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
-            title = model.selectedTerm.termLabel
+            title = realmViewModel.selectedTerm.termLabel
         }
 
         return view
@@ -110,7 +104,7 @@ class TimeTableFragment : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // view model
-        model.selectedCourseData.observe(viewLifecycleOwner, Observer { course ->
+        realmViewModel.selectedCourseData.observe(viewLifecycleOwner, Observer { course ->
             view.findViewWithTag<TextView>(
                 listOf(course.day, course.order)
             ).run {
@@ -150,29 +144,29 @@ class TimeTableFragment : CustomFragment() {
                     ViewGroup.LayoutParams.MATCH_PARENT)
 
                 // Add text view to show the course context
-                model.chooseSelectedCourse(day, i)
+                realmViewModel.chooseSelectedCourse(day, i)
                 val periodView = TextView(context).apply {
                     // View Property
-                    tag = listOf(model.selectedCourse.day, model.selectedCourse.order)
+                    tag = listOf(realmViewModel.selectedCourse.day, realmViewModel.selectedCourse.order)
 
-                    updatePeriodViewProperty(model.selectedCourse)
+                    updatePeriodViewProperty(realmViewModel.selectedCourse)
 
                     // Event Listener
                     setOnClickListener {
                         // Update view model
-                        model.chooseSelectedCourse(day, i)
-                        Log.d("courseName", model.selectedCourse.courseName)
+                        realmViewModel.chooseSelectedCourse(day, i)
+                        Log.d("courseName", realmViewModel.selectedCourse.courseName)
 
                         // Replace fragment
-                        model.initBook()
-                        Log.d("model-bookTitle", model.selectedCourse.bookTitle)
+                        realmViewModel.initBook()
+                        Log.d("model-bookTitle", realmViewModel.selectedCourse.bookTitle)
                         replaceParentFragment(R.id.container_main, CourseSettingFragment())
                     }
 
                     setOnLongClickListener { v ->
                         v.isSelected = true
                         // Update view model
-                        model.chooseSelectedCourse(day, i)
+                        realmViewModel.chooseSelectedCourse(day, i)
 
                         PopupMenu(context, v).apply {
                             inflate(R.menu.menu_time_table_popup)
@@ -181,7 +175,7 @@ class TimeTableFragment : CustomFragment() {
                                 when (it.itemId) {
                                     R.id.edit -> {
                                         // Replace fragment
-                                        model.initBook()
+                                        realmViewModel.initBook()
                                         this@TimeTableFragment.replaceParentFragment(
                                             R.id.container_main, CourseSettingFragment()
                                         )

@@ -19,7 +19,7 @@ class CreateDialogFragment : DialogFragment() {
     }
 
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
 
     // Event Listeners
     private lateinit var listener: NoticeDialogListener
@@ -47,7 +47,7 @@ class CreateDialogFragment : DialogFragment() {
                         endMonth = view.end_month.text.toString()
                     }
 
-                model.createTerm(term)
+                realmViewModel.createTerm(term)
 
                 listener.onPositiveClick(this)
 
