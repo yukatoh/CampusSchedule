@@ -192,7 +192,7 @@ class StartFragment : CustomFragment() {
             actionMode?.finish()
             // Activate dialog
             createDialogFragment.show(
-                parentFragmentManager, TermSettingDialogFragment.TAG_DEFAULT)
+                parentFragmentManager, CreateDialogFragment.TAG_DEFAULT)
         }
 
         return view

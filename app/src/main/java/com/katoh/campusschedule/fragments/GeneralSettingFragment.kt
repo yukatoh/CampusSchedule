@@ -79,26 +79,31 @@ class GeneralSettingFragment : CustomFragment() {
                 parentFragmentManager.popBackStack()
                 true
             }
+
             R.id.save -> {
                 val typeContents = mutableListOf<TypeContent>()
                 for (position in 0 until adapter.itemCount){
-                    recyclerView.findViewHolderForAdapterPosition(position)?.let { holder ->
-                        typeContents.add(TypeContent(
+                    recyclerView.findViewHolderForAdapterPosition(position)
+                        ?.let { holder ->
+                            typeContents.add(TypeContent(
                             holder.itemView.type_name.text.toString(),
                             Color.parseColor(holder.itemView.color_selected.text.toString())
                         ))
+
                     }
                 }
-                sp.settingDao().savedTypeContents = typeContents
 
-                sp.settingDao().satVisible = requireView().switch_sat.isChecked
-
-                sp.settingDao().timeOrderMax =
-                    requireView().spinner_order.selectedItemPosition + 1
+                requireView().let { view ->
+                    sp.settingDao().savedTypeContents = typeContents
+                    sp.settingDao().satVisible = view.switch_sat.isChecked
+                    sp.settingDao().timeOrderMax =
+                        view.spinner_order.selectedItemPosition + 1
+                }
 
                 parentFragmentManager.popBackStack()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
