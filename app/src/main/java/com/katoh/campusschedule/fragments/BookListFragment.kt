@@ -102,6 +102,21 @@ class BookListFragment : CustomFragment() {
     private fun setViewAdapter() {
         adapter = BookRecyclerAdapter(requireContext(), model.courseResults)
 
+        adapter.setOnItemClickListener(
+            object : BookRecyclerAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    // Update view model
+                    val course = model.courseResults[position]
+                        ?: throw Exception("The course not found")
+                    model.chooseSelectedCourse(course.day, course.order)
+
+                    // Show dialog
+                    model.initBook()
+                    bookSettingDialogFragment.show(
+                        parentFragmentManager, BookSettingDialogFragment.TAG_DEFAULT)
+                }
+            })
+
         adapter.setOnMenuItemClickListener(
             object : BookRecyclerAdapter.OnMenuItemClickListener{
                 override fun onClick(menuItem: MenuItem, position: Int): Boolean {

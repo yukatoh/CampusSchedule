@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_home_white_24dp"
-        android:title="@string/home"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/book_list"
-        android:title="@string/book_list" />
+        android:title="@string/book_list"
+        app:showAsAction="ifRoom" />
 </menu>

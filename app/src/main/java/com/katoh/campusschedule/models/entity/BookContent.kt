@@ -5,14 +5,13 @@ data class BookContent(
     val author: String = "",
     val publisher: String = ""
 ) {
-    fun toList(): List<String> = listOf(title, author, publisher)
-
     fun joinToString(): String {
         return when  {
             title.isBlank() -> ""
-            author.isBlank() -> "%s - %s".format(title, publisher)
-            publisher.isBlank() -> "%s - %s".format(title, author)
-            else -> "%s - %s - %s".format(title, author, publisher)
+            author.isBlank() and publisher.isBlank() -> title
+            author.isBlank() -> "$title - $publisher"
+            publisher.isBlank() -> "$title - $author"
+            else -> "$title - $author - $publisher"
         }
     }
 }

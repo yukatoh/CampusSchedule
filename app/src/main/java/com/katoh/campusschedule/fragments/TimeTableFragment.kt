@@ -100,7 +100,7 @@ class TimeTableFragment : CustomFragment() {
 
         // Action Bar
         activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
             title = model.selectedTerm.termLabel
         }
 
