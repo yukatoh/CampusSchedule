@@ -28,13 +28,6 @@ class BookSearchFragment : CustomFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        // Action Bar
-        activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.search_result)
-        }
-
     }
 
     override fun onCreateView(
@@ -44,6 +37,12 @@ class BookSearchFragment : CustomFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_book_search,
             container, false)
+
+        // Action Bar
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.search_result)
+        }
 
         recyclerView = view.recyclerview_book_search.apply {
             layoutManager = LinearLayoutManager(
@@ -57,7 +56,7 @@ class BookSearchFragment : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bookViewModel.bookLiveData.observe(viewLifecycleOwner, Observer { bookData ->
-            view.num_search.text = bookData.items.size.toString()
+            view.num_search.text = (bookData.items?.size ?: 0).toString()
             setViewAdapter()
         })
 
@@ -75,7 +74,8 @@ class BookSearchFragment : CustomFragment() {
             object : BookSearchRecyclerAdapter.OnItemClickListener {
                 override fun onClick(position: Int) {
                     // Intent
-                    val uri = Uri.parse(bookViewModel.bookList.items[position].volumeInfo.infoLink)
+                    val uri = Uri.parse(bookViewModel.bookList
+                        .items?.get(position)?.volumeInfo?.infoLink)
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     if (intent.resolveActivity(activity.packageManager) != null) {
                         startActivity(intent)

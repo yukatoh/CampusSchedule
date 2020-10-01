@@ -86,6 +86,7 @@
     <string name="type_label_2">一般選択</string>
     <string name="type_label_3">一般教養</string>
     <string name="type_label_4">その他</string>
+    <string name="message_read_more">さらに読む</string>
 
     <string name="period_1st">1限</string>
     <string name="period_2nd">2限</string>

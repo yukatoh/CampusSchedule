@@ -35,12 +35,6 @@ class BookListFragment : CustomFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        // Action Bar
-        activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.book_list)
-        }
     }
 
     override fun onCreateView(
@@ -49,6 +43,12 @@ class BookListFragment : CustomFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_book_list, container, false)
+
+        // Action Bar
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.book_list)
+        }
 
         recyclerView = view.recyclerview_book.apply {
             layoutManager = LinearLayoutManager(
