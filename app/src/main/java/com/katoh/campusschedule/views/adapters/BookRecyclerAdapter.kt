@@ -17,6 +17,7 @@ class BookRecyclerAdapter(
 ) : RecyclerView.Adapter<BookRecyclerAdapter.BookViewHolder>() {
 
     private lateinit var menuItemClickListener: OnMenuItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
 
     class BookViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val dayOrder: TextView = view.day_order
@@ -36,6 +37,7 @@ class BookRecyclerAdapter(
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val course = courses[position] ?: throw Exception()
+
         // View property <- Realm
         holder.dayOrder.text = "%s%s".format(
             translateWeekDay(course.day), course.order)
@@ -49,7 +51,13 @@ class BookRecyclerAdapter(
                 course.textbook
             }
 
+        holder.itemView.setBackgroundResource(R.drawable.state_list)
+
         // Set Event Listener
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(position)
+        }
+
         holder.popupButton.setOnClickListener { view ->
             PopupMenu(view.context, view).apply {
                 inflate(R.menu.menu_book_list_popup)
@@ -68,6 +76,14 @@ class BookRecyclerAdapter(
     private fun translateWeekDay(day: Int) : String {
         val weekDays = context.resources.getStringArray(R.array.labels_weekday)
         return weekDays[day]
+    }
+
+    interface OnItemClickListener {
+        fun onClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
     }
 
     interface OnMenuItemClickListener {

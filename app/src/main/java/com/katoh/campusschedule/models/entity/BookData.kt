@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class BookData(
-    val items: List<Item>?,
-    val kind: String,
-    val totalItems: Int
+    val items: List<Item> = listOf(),
+    val kind: String = "",
+    val totalItems: Int = 0
 )
 
 data class Item(

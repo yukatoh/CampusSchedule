@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -19,11 +18,6 @@ import com.katoh.campusschedule.views.adapters.BookSearchRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_book_search.view.*
 
 class BookSearchFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
     // Views
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: BookSearchRecyclerAdapter

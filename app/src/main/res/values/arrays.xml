@@ -77,13 +77,13 @@
     </string-array>
 
     <string-array name="labels_time_order">
-        <item>1限</item>
-        <item>2限</item>
-        <item>3限</item>
-        <item>4限</item>
-        <item>5限</item>
-        <item>6限</item>
-        <item>7限</item>
+        <item>@string/period_1st</item>
+        <item>@string/period_2nd</item>
+        <item>@string/period_3rd</item>
+        <item>@string/period_4th</item>
+        <item>@string/period_5th</item>
+        <item>@string/period_6th</item>
+        <item>@string/period_7th</item>
     </string-array>
 
 </resources>
