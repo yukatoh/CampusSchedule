@@ -23,7 +23,7 @@ class BookViewModel: ViewModel() {
     }
     val bookLiveData: LiveData<BookData>
         get() = _bookLiveData
-    lateinit var bookList: BookData
+    var bookList: BookData = BookData()
 
     private fun updateBookData(bookData: BookData) {
         bookList = bookData
