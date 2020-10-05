@@ -85,6 +85,8 @@ You can check images and descriptions, not to mention titles.
 Clicking an item, you can get more information on the web brawser.
 
 ## Requirement
++ Min SDK version: 24
++ Android Studio 3.6.2
 
 ## Set up
 `$ git clone https://github.com/yukatoh/CampusSchedule.git`
