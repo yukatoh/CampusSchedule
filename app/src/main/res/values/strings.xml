@@ -79,5 +79,13 @@
     <string name="message_missing_description">Missing description</string>
     <string name="search_result">Search result</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="period_1st">1st</string>
+    <string name="period_2nd">2nd</string>
+    <string name="period_3rd">3rd</string>
+    <string name="period_4th">4th</string>
+    <string name="period_5th">5th</string>
+    <string name="period_6th">6th</string>
+    <string name="period_7th">7th</string>
+    <string name="message_read_more">Read more</string>
 
 </resources>

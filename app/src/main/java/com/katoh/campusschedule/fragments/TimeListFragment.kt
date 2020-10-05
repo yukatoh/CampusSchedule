@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -30,12 +29,7 @@ import com.katoh.campusschedule.views.adapters.TypeInfoRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_time_list.view.*
 
 class TimeListFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
-    // Views
+        // Views
     private lateinit var timeRecyclerView: RecyclerView
     private lateinit var timeAdapter: TimeSelectableAdapter
 
@@ -46,7 +40,7 @@ class TimeListFragment : CustomFragment() {
     private val actionModeCallback = TimeListActionModeCallback()
 
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
     private val sortViewModel: SortViewModel by activityViewModels()
 
     // Dialogs
@@ -97,8 +91,8 @@ class TimeListFragment : CustomFragment() {
                     when (dialog.tag) {
                         DeleteDialogFragment.TAG_POPUP -> {
                             // Initialize the course
-                            Log.d("delete-from-popup", model.selectedCourse.courseName)
-                            model.initCourse()
+                            Log.d("delete-from-popup", realmViewModel.selectedCourse.courseName)
+                            realmViewModel.initCourse()
                         }
                         DeleteDialogFragment.TAG_CAM -> {
                             val selectedCourses = timeAdapter.getSelectedItemPositions()
@@ -107,9 +101,9 @@ class TimeListFragment : CustomFragment() {
                                         ?: throw Exception()
                                 }
                             selectedCourses.forEach { course ->
-                                model.chooseSelectedCourse(course.day, course.order)
+                                realmViewModel.chooseSelectedCourse(course.day, course.order)
                                 Log.d("delete-from-cam", course.courseName)
-                                model.initCourse()
+                                realmViewModel.initCourse()
                             }
                             actionMode?.finish()
                         }
@@ -158,8 +152,8 @@ class TimeListFragment : CustomFragment() {
         }
 
         // Other Views
-        view.text_course_sum.text = model.courseResults.size.toString()
-        view.text_point_sum.text = model.courseResults.sum("point").toString()
+        view.text_course_sum.text = realmViewModel.courseResults.size.toString()
+        view.text_point_sum.text = realmViewModel.courseResults.sum("point").toString()
 
         return view
     }
@@ -167,10 +161,10 @@ class TimeListFragment : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        model.selectedCourseData.observe(viewLifecycleOwner, Observer { course ->
+        realmViewModel.selectedCourseData.observe(viewLifecycleOwner, Observer { course ->
             setViewAdapter()
-            view.text_course_sum.text = model.courseResults.size.toString()
-            view.text_point_sum.text = model.courseResults.sum("point").toString()
+            view.text_course_sum.text = realmViewModel.courseResults.size.toString()
+            view.text_point_sum.text = realmViewModel.courseResults.sum("point").toString()
             actionMode?.finish()
         })
 
@@ -214,7 +208,7 @@ class TimeListFragment : CustomFragment() {
      */
     private fun setViewAdapter() {
         /* TimeSelectableAdapter */
-        sortViewModel.updateCourseResults(model.courseResults)
+        sortViewModel.updateCourseResults(realmViewModel.courseResults)
         timeAdapter = TimeSelectableAdapter(requireContext(),
             sortViewModel.courseResults, savedTypeContents)
 
@@ -229,10 +223,10 @@ class TimeListFragment : CustomFragment() {
                         // Update view model
                         val course = sortViewModel.courseResults[position]
                             ?: throw Exception("The course not found")
-                        model.chooseSelectedCourse(course.day, course.order)
+                        realmViewModel.chooseSelectedCourse(course.day, course.order)
 
                         // Replace Fragment
-                        model.initBook()
+                        realmViewModel.initBook()
                         replaceParentFragment(
                             R.id.container_main, CourseSettingFragment()
                         )
@@ -257,11 +251,11 @@ class TimeListFragment : CustomFragment() {
                     // Update view model
                     val course = sortViewModel.courseResults[position]
                         ?: throw Exception("The course not found")
-                    model.chooseSelectedCourse(course.day, course.order)
+                    realmViewModel.chooseSelectedCourse(course.day, course.order)
                     return when (menuItem.itemId) {
                         R.id.edit -> {
                             // Replace fragment
-                            model.initBook()
+                            realmViewModel.initBook()
                             replaceParentFragment(
                                 R.id.container_main, CourseSettingFragment()
                             )
@@ -285,7 +279,7 @@ class TimeListFragment : CustomFragment() {
 
         /* TypeRecyclerAdapter */
         typeAdapter = TypeInfoRecyclerAdapter(requireContext(),
-            model.courseResults, savedTypeContents)
+            realmViewModel.courseResults, savedTypeContents)
 
         // Set recycler view adapter
         typeRecyclerView.adapter = typeAdapter

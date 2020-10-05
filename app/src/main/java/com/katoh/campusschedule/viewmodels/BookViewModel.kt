@@ -23,7 +23,7 @@ class BookViewModel: ViewModel() {
     }
     val bookLiveData: LiveData<BookData>
         get() = _bookLiveData
-    lateinit var bookList: BookData
+    var bookList: BookData = BookData()
 
     private fun updateBookData(bookData: BookData) {
         bookList = bookData
@@ -39,7 +39,6 @@ class BookViewModel: ViewModel() {
                 val params = HashMap<String, Any>()
                 params["q"] = getQueryString(bookContent)
                 Log.d("queryParams", params["q"].toString())
-                Log.d("networkResult", bookRepository.getBookData(params)?.items?.size.toString())
                 // Update live data
                 bookRepository.getBookData(params)?.let { bookData ->
                     updateBookData(bookData)

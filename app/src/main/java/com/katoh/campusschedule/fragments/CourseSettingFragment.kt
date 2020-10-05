@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.katoh.campusschedule.R
 import com.katoh.campusschedule.fragments.dialogs.BookSettingDialogFragment
@@ -21,14 +19,9 @@ import com.katoh.campusschedule.views.adapters.TypeSpinnerAdapter
 import kotlinx.android.synthetic.main.fragnent_course_setting.*
 import kotlinx.android.synthetic.main.fragnent_course_setting.view.*
 
-class CourseSettingFragment : Fragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
+class CourseSettingFragment : CustomFragment() {
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val viewModel: RealmResultViewModel by activityViewModels()
 
     // Shared Preferences
     private val defaultPreferences: CustomSharedPreferences by lazy {
@@ -54,8 +47,8 @@ class CourseSettingFragment : Fragment() {
         activity.supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             title = "%s %s".format(
-                translateWeekDay(model.selectedCourse.day),
-                model.selectedCourse.order
+                translateWeekDay(viewModel.selectedCourse.day),
+                viewModel.selectedCourse.order
             )
         }
 
@@ -70,14 +63,14 @@ class CourseSettingFragment : Fragment() {
             R.layout.fragnent_course_setting, container, false
         ).apply {
             // Set texts from model to EditView
-            edit_course.setText(model.selectedCourse.courseName)
-            edit_teacher.setText(model.selectedCourse.teacherName)
-            edit_point.setText(model.selectedCourse.point.toString())
-            edit_grade.setText(model.selectedCourse.grade.toString())
-            edit_book.text = model.tempBook.joinToString()
-            edit_email.setText(model.selectedCourse.email)
-            edit_url.setText(model.selectedCourse.url)
-            edit_additional.setText(model.selectedCourse.additional)
+            edit_course.setText(viewModel.selectedCourse.courseName)
+            edit_teacher.setText(viewModel.selectedCourse.teacherName)
+            edit_point.setText(viewModel.selectedCourse.point.toString())
+            edit_grade.setText(viewModel.selectedCourse.grade.toString())
+            edit_book.text = viewModel.tempBook.joinToString()
+            edit_email.setText(viewModel.selectedCourse.email)
+            edit_url.setText(viewModel.selectedCourse.url)
+            edit_additional.setText(viewModel.selectedCourse.additional)
         }
 
         view.spinner_type.run {
@@ -87,7 +80,7 @@ class CourseSettingFragment : Fragment() {
                 context.getColor(R.color.white)
             ), 0)
             setAdapter(adapter)
-            setSelection(model.selectedCourse.type + 1)
+            setSelection(viewModel.selectedCourse.type + 1)
         }
 
         view.button_edit_book.setOnClickListener {
@@ -150,15 +143,15 @@ class CourseSettingFragment : Fragment() {
                             type = spinner_type.selectedItemPosition - 1
                             point = edit_point.text.toString().toLong()
                             grade = edit_grade.text.toString().toLong()
-                            textbook = model.tempBook.joinToString()
-                            bookTitle = model.tempBook.title
-                            bookAuthor = model.tempBook.author
-                            bookPublisher = model.tempBook.publisher
+                            textbook = viewModel.tempBook.joinToString()
+                            bookTitle = viewModel.tempBook.title
+                            bookAuthor = viewModel.tempBook.author
+                            bookPublisher = viewModel.tempBook.publisher
                             email = edit_email.text.toString()
                             url = edit_url.text.toString()
                             additional = edit_additional.text.toString()
                         }
-                        model.updateCourseSetting(course)
+                        viewModel.updateCourseSetting(course)
                         parentFragmentManager.popBackStack()
                         true
                     }

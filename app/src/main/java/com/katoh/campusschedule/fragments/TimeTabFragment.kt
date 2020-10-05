@@ -2,7 +2,6 @@ package com.katoh.campusschedule.fragments
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -11,11 +10,6 @@ import com.katoh.campusschedule.R
 import kotlinx.android.synthetic.main.fragment_time_tab.view.*
 
 class TimeTabFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
     /**
      * Whether the device is tablet or not
      */
@@ -70,7 +64,7 @@ class TimeTabFragment : CustomFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
-            R.id.home -> {
+            android.R.id.home -> {
                 parentFragmentManager.popBackStack()
                 true
             }
@@ -87,10 +81,12 @@ class TimeTabFragment : CustomFragment() {
     /**
      * Set a view paper adapter and each tab layout
      */
-    @Suppress("PLUGIN_WARNING")
     private fun setViewPaperItems(view: View) {
         if (!isTablet) {
-            view.view_pager_time.adapter =
+            val viewPager = view.view_pager_time
+            val tabLayout = view.time_tab
+
+            viewPager.adapter =
                 object : FragmentStateAdapter(this) {
                     override fun getItemCount(): Int = indexItems.size
 
@@ -98,9 +94,9 @@ class TimeTabFragment : CustomFragment() {
                         return indexItems[position].newInstance()
                     }
                 }
-            view.view_pager_time.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-            TabLayoutMediator(view.time_tab, view.view_pager_time) { tab, position ->
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = getString(indexItems[position].tabTextId)
             }.attach()
         }

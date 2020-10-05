@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -22,17 +21,12 @@ import com.katoh.campusschedule.views.adapters.BookRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.view.*
 
 class BookListFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
     // Views
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: BookRecyclerAdapter
 
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
     private val bookViewModel: BookViewModel by activityViewModels()
 
     // Dialogs
@@ -41,12 +35,6 @@ class BookListFragment : CustomFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        // Action Bar
-        activity.supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.book_list)
-        }
     }
 
     override fun onCreateView(
@@ -55,6 +43,12 @@ class BookListFragment : CustomFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_book_list, container, false)
+
+        // Action Bar
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.book_list)
+        }
 
         recyclerView = view.recyclerview_book.apply {
             layoutManager = LinearLayoutManager(
@@ -66,7 +60,7 @@ class BookListFragment : CustomFragment() {
         bookSettingDialogFragment.setNoticeDialogListener(
             object : BookSettingDialogFragment.NoticeDialogListener {
                 override fun onPositiveClick(dialog: DialogFragment, book: BookContent) {
-                    model.updateBookSetting(book)
+                    realmViewModel.updateBookSetting(book)
                 }
             })
 
@@ -75,7 +69,7 @@ class BookListFragment : CustomFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model.selectedCourseData.observe(viewLifecycleOwner, Observer {
+        realmViewModel.selectedCourseData.observe(viewLifecycleOwner, Observer {
             setViewAdapter()
         })
 
@@ -100,28 +94,43 @@ class BookListFragment : CustomFragment() {
      * to generate recycler view
      */
     private fun setViewAdapter() {
-        adapter = BookRecyclerAdapter(requireContext(), model.courseResults)
+        adapter = BookRecyclerAdapter(requireContext(), realmViewModel.courseResults)
+
+        adapter.setOnItemClickListener(
+            object : BookRecyclerAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    // Update view model
+                    val course = realmViewModel.courseResults[position]
+                        ?: throw Exception("The course not found")
+                    realmViewModel.chooseSelectedCourse(course.day, course.order)
+
+                    // Show dialog
+                    realmViewModel.initBook()
+                    bookSettingDialogFragment.show(
+                        parentFragmentManager, BookSettingDialogFragment.TAG_DEFAULT)
+                }
+            })
 
         adapter.setOnMenuItemClickListener(
             object : BookRecyclerAdapter.OnMenuItemClickListener{
                 override fun onClick(menuItem: MenuItem, position: Int): Boolean {
                     // Update view model
-                    val course = model.courseResults[position]
+                    val course = realmViewModel.courseResults[position]
                         ?: throw Exception("The course not found")
-                    model.chooseSelectedCourse(course.day, course.order)
+                    realmViewModel.chooseSelectedCourse(course.day, course.order)
 
                     return when (menuItem.itemId) {
                         R.id.edit -> {
                             // Show dialog
-                            model.initBook()
+                            realmViewModel.initBook()
                             bookSettingDialogFragment.show(
                                 parentFragmentManager, BookSettingDialogFragment.TAG_DEFAULT)
                             true
                         }
                         R.id.search -> {
                             // Replace fragment
-                            model.initBook()
-                            bookViewModel.fetchBookData(model.tempBook)
+                            realmViewModel.initBook()
+                            bookViewModel.fetchBookData(realmViewModel.tempBook)
                             replaceFragment(R.id.container_main, BookSearchFragment())
                             true
                         }

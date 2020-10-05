@@ -3,7 +3,6 @@ package com.katoh.campusschedule.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -21,11 +20,6 @@ import com.katoh.campusschedule.views.actionbar.StartActionModeCallback
 import com.katoh.campusschedule.views.adapters.StartSelectableAdapter
 
 class StartFragment : CustomFragment() {
-    // Activity
-    private val activity: AppCompatActivity by lazy {
-        getActivity() as AppCompatActivity
-    }
-
     // Views
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StartSelectableAdapter
@@ -34,7 +28,7 @@ class StartFragment : CustomFragment() {
     private val actionModeCallback = StartActionModeCallback()
 
     // View Models
-    private val model: RealmResultViewModel by activityViewModels()
+    private val realmViewModel: RealmResultViewModel by activityViewModels()
 
     // Dialogs
     private val createDialogFragment = CreateDialogFragment()
@@ -82,16 +76,16 @@ class StartFragment : CustomFragment() {
                     when (dialog.tag) {
                         DeleteDialogFragment.TAG_POPUP -> {
                             // Delete the term from DB
-                            Log.d("delete-from-popup", model.selectedTerm.id.toString())
-                            model.deleteSelectedTerm()
+                            Log.d("delete-from-popup", realmViewModel.selectedTerm.id.toString())
+                            realmViewModel.deleteSelectedTerm()
                         }
                         DeleteDialogFragment.TAG_CAM -> {
                             val selectedIds = adapter.getSelectedItemPositions()
-                                .mapNotNull { position -> model.termResults[position]?.id }
+                                .mapNotNull { position -> realmViewModel.termResults[position]?.id }
                             selectedIds.forEach { id ->
-                                model.chooseSelectedTerm(id)
+                                realmViewModel.chooseSelectedTerm(id)
                                 Log.d("delete-from-cam", id.toString())
-                                model.deleteSelectedTerm()
+                                realmViewModel.deleteSelectedTerm()
                             }
                             actionMode?.finish()
                         }
@@ -127,7 +121,7 @@ class StartFragment : CustomFragment() {
         recyclerView.layoutManager = LinearLayoutManager(
             context, LinearLayoutManager.VERTICAL, false)
         recyclerView.itemAnimator = DefaultItemAnimator()
-        adapter = StartSelectableAdapter(requireContext(), model.termResults)
+        adapter = StartSelectableAdapter(requireContext(), realmViewModel.termResults)
         setViewAdapter()
 
         // Set Event Listener
@@ -139,7 +133,7 @@ class StartFragment : CustomFragment() {
                     } else {
                         actionMode?.finish()
                         // Update model
-                        model.chooseSelectedTerm(model.termResults[position]?.id
+                        realmViewModel.chooseSelectedTerm(realmViewModel.termResults[position]?.id
                             ?: throw Exception("selectedId is invalid"))
                         // Replace fragment
                         replaceFragment(R.id.container_main, TimeTabFragment())
@@ -162,7 +156,7 @@ class StartFragment : CustomFragment() {
             object : StartSelectableAdapter.OnMenuItemClickListener {
                 override fun onClick(menuItem: MenuItem, position: Int): Boolean {
                     // Update model
-                    model.chooseSelectedTerm(model.termResults[position]?.id
+                    realmViewModel.chooseSelectedTerm(realmViewModel.termResults[position]?.id
                         ?: throw Exception("selectedId is invalid"))
                     return when (menuItem.itemId) {
                         R.id.edit -> {
@@ -192,7 +186,7 @@ class StartFragment : CustomFragment() {
             actionMode?.finish()
             // Activate dialog
             createDialogFragment.show(
-                parentFragmentManager, TermSettingDialogFragment.TAG_DEFAULT)
+                parentFragmentManager, CreateDialogFragment.TAG_DEFAULT)
         }
 
         return view
@@ -200,7 +194,7 @@ class StartFragment : CustomFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model.selectedTermData.observe(viewLifecycleOwner, Observer {
+        realmViewModel.selectedTermData.observe(viewLifecycleOwner, Observer {
             setViewAdapter()
             actionMode?.finish()
         })
